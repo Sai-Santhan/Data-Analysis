@@ -1,0 +1,45 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: data-analysis-web-deployment
+  labels:
+    app: data-analysis-web-deployment
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: data-analysis-web-deployment
+  template:
+    metadata:
+      labels:
+        app: data-analysis-web-deployment
+    spec:
+      containers:
+        - name: data-analysis-web
+          image: registry.digitalocean.com/my-private-registry333/data-analysis-web:latest
+          imagePullPolicy: Always
+          envFrom:
+            - secretRef:
+                name: data-analysis-web-prod-env
+          env:
+            - name: PORT
+              value: "8002"
+          ports:
+            - containerPort: 8002
+      imagePullSecrets:
+        - name: data-analysis
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: data-analysis-web-service
+spec:
+  type: LoadBalancer
+  ports:
+    - name: http
+      protocol: TCP
+      port: 80
+      targetPort: 8002
+  selector:
+    app: data-analysis-web-deployment
