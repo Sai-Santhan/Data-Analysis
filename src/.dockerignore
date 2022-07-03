@@ -1,7 +1,7 @@
 .env
-.env.prod
+.prod.env
 .DS_Store
-
+.kube
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
