@@ -41,7 +41,17 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    # internal
+    'customers',
+    'products',
+    'profiles',
+    'reports',
+    'sales',
+    # external
+    'crispy_forms',
 ]
+
+CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -58,7 +68,7 @@ ROOT_URLCONF = 'data_analysis.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [BASE_DIR / 'templates'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -84,27 +94,27 @@ DATABASES = {
     }
 }
 
-DB_USERNAME = os.environ.get("POSTGRES_USER")	
-DB_PASSWORD = os.environ.get("POSTGRES_PASSWORD")	
-DB_DATABASE = os.environ.get("POSTGRES_DB")	
-DB_HOST = os.environ.get("POSTGRES_HOST")	
-DB_PORT = os.environ.get("POSTGRES_PORT")	
-DB_IS_AVAIL = all([DB_USERNAME, DB_PASSWORD, DB_DATABASE, DB_HOST, DB_PORT])	
-DB_IGNORE_SSL = os.environ.get("DB_IGNORE_SSL") == "true"
+# DB_USERNAME = os.environ.get("POSTGRES_USER")	
+# DB_PASSWORD = os.environ.get("POSTGRES_PASSWORD")	
+# DB_DATABASE = os.environ.get("POSTGRES_DB")	
+# DB_HOST = os.environ.get("POSTGRES_HOST")	
+# DB_PORT = os.environ.get("POSTGRES_PORT")	
+# DB_IS_AVAIL = all([DB_USERNAME, DB_PASSWORD, DB_DATABASE, DB_HOST, DB_PORT])	
+# DB_IGNORE_SSL = os.environ.get("DB_IGNORE_SSL") == "true"
 
-if DB_IS_AVAIL:	
-    DATABASES = {	
-        "default": {	
-            "ENGINE": "django.db.backends.postgresql",	
-            "NAME": DB_DATABASE,	
-            "USER": DB_USERNAME,	
-            "PASSWORD": DB_PASSWORD,	
-            "HOST": DB_HOST,	
-            "PORT": DB_PORT,	
-        }	
-    }	
-    if not DB_IGNORE_SSL:	
-        DATABASES["default"]["OPTIONS"] = {"sslmode": "require"}
+# if DB_IS_AVAIL:	
+#     DATABASES = {	
+#         "default": {	
+#             "ENGINE": "django.db.backends.postgresql",	
+#             "NAME": DB_DATABASE,	
+#             "USER": DB_USERNAME,	
+#             "PASSWORD": DB_PASSWORD,	
+#             "HOST": DB_HOST,	
+#             "PORT": DB_PORT,	
+#         }	
+#     }	
+#     if not DB_IGNORE_SSL:	
+#         DATABASES["default"]["OPTIONS"] = {"sslmode": "require"}
 
 # Password validation
 # https://docs.djangoproject.com/en/4.0/ref/settings/#auth-password-validators
@@ -140,9 +150,14 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.0/howto/static-files/
 
-STATIC_URL = 'static/'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+STATIC_URL = 'static/'
+STATICFILES_DIRS = [BASE_DIR / 'static']
+
+MEDIA_URL = '/media/'
+MEDIA_ROOT = BASE_DIR / 'media'
