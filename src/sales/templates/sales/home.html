@@ -17,5 +17,7 @@ home
 
     {% if sales_df %}
 {{ sales_df | safe }}
+        <br>
+        {{ positions_df | safe }}
     {% endif %}
 {% endblock content %}

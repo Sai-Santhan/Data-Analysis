@@ -8,6 +8,7 @@ import pandas as pd
 # Create your views here.
 def home_view(request):
     sales_df = None
+    positions_df = None
     form = SalesSearchForm(request.POST or None)
     if request.method == "POST":
         date_from = request.POST.get("date_from")
@@ -19,10 +20,26 @@ def home_view(request):
         )
         if len(sale_qs) > 0:
             sales_df = pd.DataFrame(sale_qs.values())
+            positions_data = []
+            for sale in sale_qs:
+                for position in sale.get_positions():
+                    obj = {
+                        "position_id": position.id,
+                        "product": position.product.name,
+                        "quantity": position.quantity,
+                        "price": position.price,
+                        "sales_id": position.get_sales_id(),
+                    }
+                    positions_data.append(obj)
+
+            positions_df = pd.DataFrame(positions_data)
             sales_df = sales_df.to_html()
+            positions_df = positions_df.to_html()
+
     context = {
         'form': form,
         'sales_df': sales_df,
+        'positions_df': positions_df,
     }
     return render(request, 'sales/home.html', context)
 
