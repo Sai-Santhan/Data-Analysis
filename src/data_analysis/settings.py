@@ -35,6 +35,7 @@ if ENV_ALLOWED_HOST := os.environ.get("ENV_ALLOWED_HOST", None):
 # Application definition
 
 INSTALLED_APPS = [
+    'jazzmin',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
