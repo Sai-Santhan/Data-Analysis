@@ -1,7 +1,7 @@
 from django.db import models
-from products.models import Product
-from customers.models import Customer
-from profiles.models import Profile
+from ..products.models import Product
+from ..customers.models import Customer
+from ..profiles.models import Profile
 from django.utils import timezone
 from .utils import generate_code
 from django.shortcuts import reverse
@@ -42,7 +42,7 @@ class Sale(models.Model):
         return f"Sales for the amount of ${self.total_price}"
 
     def get_absolute_url(self):
-        return reverse("sales:detail", kwargs={"pk": self.pk})
+        return reverse('sales:detail', kwargs={'pk': self.pk})
 
     def save(self, *args, **kwargs):
         if self.transaction_id == "":
