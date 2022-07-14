@@ -13,4 +13,9 @@ home
     {{ form|crispy }}
      <button type="submit" class="btn btn-primary mt-3">search</button>
 </form>
+    <br>
+
+    {% if sales_df %}
+{{ sales_df | safe }}
+    {% endif %}
 {% endblock content %}
