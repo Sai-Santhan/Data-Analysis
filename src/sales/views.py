@@ -10,6 +10,7 @@ from .utils import get_customer_from_id, get_salesman_from_id
 def home_view(request):
     sales_df = None
     positions_df = None
+    merged_df = None
     form = SalesSearchForm(request.POST or None)
     if request.method == "POST":
         date_from = request.POST.get("date_from")
@@ -45,13 +46,17 @@ def home_view(request):
                     positions_data.append(obj)
 
             positions_df = pd.DataFrame(positions_data)
+            merged_df = pd.merge(sales_df, positions_df, on='sales_id')
+
             sales_df = sales_df.to_html()
             positions_df = positions_df.to_html()
+            merged_df = merged_df.to_html()
 
     context = {
         'form': form,
         'sales_df': sales_df,
         'positions_df': positions_df,
+        'merged_df': merged_df,
     }
     return render(request, 'sales/home.html', context)
 
