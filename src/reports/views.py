@@ -20,6 +20,10 @@ class ReportDetailView(DetailView):
 
 
 class UploadTemplateView(TemplateView):
+    template_name = 'reports/from_file.html'
+
+
+def csv_upload_view():
     pass
 
 
@@ -35,10 +39,6 @@ def create_report_view(request):
         Report.objects.create(name=name, remarks=remarks, image=img, author=author)
         return JsonResponse({'msg': 'send'})
     return JsonResponse({})
-
-
-def csv_upload_view():
-    pass
 
 
 def render_pdf_view(request, pk):
