@@ -13,22 +13,25 @@ from profiles.models import Profile
 from reports.utils import get_report_image
 from sales.models import CSV, Position, Sale
 from .models import Report
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 
-class ReportListView(ListView):
+class ReportListView(LoginRequiredMixin, ListView):
     model = Report
     template_name = "reports/main.html"
 
 
-class ReportDetailView(DetailView):
+class ReportDetailView(LoginRequiredMixin, DetailView):
     model = Report
     template_name = "reports/detail.html"
 
 
-class UploadTemplateView(TemplateView):
+class UploadTemplateView(LoginRequiredMixin, TemplateView):
     template_name = 'reports/from_file.html'
 
 
+@login_required()
 def csv_upload_view(request):
     if request.method == "POST":
         csv_file = request.FILES.get("file")
@@ -79,6 +82,7 @@ def csv_upload_view(request):
     return HttpResponse()
 
 
+@login_required()
 def create_report_view(request):
     if request.is_ajax():
         name = request.POST.get("name")
@@ -93,6 +97,7 @@ def create_report_view(request):
     return JsonResponse({})
 
 
+@login_required()
 def render_pdf_view(request, pk):
     template_path = "reports/pdf.html"
     obj = get_object_or_404(Report, pk=pk)
