@@ -1,5 +1,5 @@
 const csrf = document.getElementsByName("csrfmiddlewaretoken")[0].value;
-const alertbox = document.getElementById("alert-box");
+const alertBox = document.getElementById("alert-box");
 
 const handleAlerts = (type, msg) => {
   alertBox.innerHTML = `
