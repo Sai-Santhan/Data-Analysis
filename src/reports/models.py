@@ -17,5 +17,5 @@ class Report(models.Model):
     def __str__(self):
         return str(self.name)
 
-    class meta:
-        ordering = ("-created",)
+    class Meta:
+        ordering = ["-created"]

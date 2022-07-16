@@ -3,6 +3,21 @@ from profiles.models import Profile
 from django.http import JsonResponse
 from .models import Report
 from reports.utils import get_report_image
+from django.views.generic import ListView, DetailView, TemplateView
+
+
+class ReportListView(ListView):
+    model = Report
+    template_name = "reports/main.html"
+
+
+class ReportDetailView(DetailView):
+    model = Report
+    template_name = "reports/detail.html"
+
+
+class UploadTemplateView(TemplateView):
+    pass
 
 
 def create_report_view(request):
@@ -17,3 +32,11 @@ def create_report_view(request):
         Report.objects.create(name=name, remarks=remarks, image=img, author=author)
         return JsonResponse({'msg': 'send'})
     return JsonResponse({})
+
+
+def render_pdf_view():
+    pass
+
+
+def csv_upload_view():
+    pass
