@@ -3,9 +3,8 @@
 {% load crispy_forms_tags %}
 
 {% block scripts %}
-    <script src="{% static 'sales/home.js' %}" defer></script>
+<script src="{% static 'sales/home.js' %}" defer></script>
 {% endblock scripts %}
-
 
 {% block title %}
 home
@@ -32,30 +31,37 @@ home
     </div>
 </div>
 
+{% if no_data %}
+<div class="alert alert-warning" role="alert">
+    {{no_data}}
+</div>
+{% endif %}
 
-<form action="" method="post">
+<form action="" method="POST">
     {% csrf_token %}
-    {{ form|crispy }}
-     <button type="submit" class="btn btn-primary mt-3">search</button>
+    {{search_form|crispy}}
+    <button type="submit" class="btn btn-primary mt-3">search</button>
 </form>
 <br>
 
 {% if sales_df %}
-    Sales DataFrame
-    {{ sales_df | safe }}
-    <br>
-    Positions DataFrame
-    {{ positions_df | safe }}
-    <br>
-    Merged DataFrame
-    {{ merged_df | safe }}
-    <br>
-    Grouped by DataFrame
-    {{ df | safe }}
-    <br>
-    Chart
-    <img src="data:image/png;base64, {{ chart|safe }}" id="img"/>
+sales df
+{{sales_df|safe}}
+<br>
+positions df
+{{positions_df|safe}}
+<br>
+merged df
+{{merged_df|safe}}
+<br>
+grouped by df
+{{df|safe}}
+<br>
+<img src="data:image/png;base64, {{chart|safe}}" id='img'>
 {% endif %}
-    <button class="btn btn-primary not-visible" id="report-btn" data-bs-toggle="modal" data-bs-target="#reportModal">add
+
+<br>
+<button class="btn btn-primary not-visible" id="report-btn" data-bs-toggle="modal" data-bs-target="#reportModal">add
     report</button>
+
 {% endblock content %}

@@ -44,14 +44,14 @@ def get_chart(chart_type, data, results_by, **kwargs):
     plt.switch_backend('AGG')
     fig = plt.figure(figsize=(10, 4))
     key = get_key(results_by)
-    d = data.groupby(key, as_index=False)["price"].agg("sum")
+    d = data.groupby(key, as_index=False)["total_price"].agg("sum")
     if chart_type == "#1":
-        sns.barplot(x=key, y="price", data=d)
+        sns.barplot(x=key, y="total_price", data=d)
     elif chart_type == "#2":
-        plt.pie(data=d, x="price", labels=d[key].values)
+        plt.pie(data=d, x="total_price", labels=d[key].values)
     elif chart_type == "#3":
         plt.plot(
-            d[key], d["price"], color="green", marker="o", linestyle="dashed"
+            d[key], d["total_price"], color="green", marker="o", linestyle="dashed"
         )
     else:
         print("ups... failed to identify the chart type")

@@ -6,7 +6,7 @@ const alertBox = document.getElementById("alert-box");
 
 const reportName = document.getElementById("id_name");
 const reportRemarks = document.getElementById("id_remarks");
-const csrf = document.getElementsByName("csrfmiddlewaretoken")[0];
+const csrf = document.getElementsByName("csrfmiddlewaretoken")[0].value;
 
 const handleAlerts = (type, msg) => {
   alertBox.innerHTML = `
@@ -21,8 +21,10 @@ if (img) {
 }
 
 reportBtn.addEventListener("click", () => {
+
   img.setAttribute("class", "w-100");
   modalBody.prepend(img);
+
   reportForm.addEventListener("submit", (e) => {
     e.preventDefault();
     const formData = new FormData();
