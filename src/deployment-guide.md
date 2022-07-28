@@ -23,13 +23,13 @@ docker push registry.digitalocean.com/my-private-registry333/data-analysis-web -
 
 ```
 kubectl delete secret data-analysis-web-prod-env
-kubectl create secret generic data-analysis-web-prod-env --from-env-file=web/.env.prod
+kubectl create secret generic data-analysis-web-prod-env --from-env-file=src/.prod.env
 ```
 
 5. Update Deployment
 
 ```
-kubectl apply -f k8s/apps/data-analysis-web.yaml
+kubectl apply -f k8s/app/data-analysis-web.yaml
 ```
 
 6. Wait for Rollout to finish

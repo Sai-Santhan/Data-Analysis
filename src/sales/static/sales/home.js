@@ -3,6 +3,7 @@ const img = document.getElementById("img");
 const modalBody = document.getElementById("modal-body");
 const reportForm = document.getElementById("report-form");
 const alertBox = document.getElementById("alert-box");
+const url = window.location.origin;
 
 const reportName = document.getElementById("id_name");
 const reportRemarks = document.getElementById("id_remarks");
@@ -35,7 +36,7 @@ reportBtn.addEventListener("click", () => {
 
     $.ajax({
       type: "POST",
-      url: "/reports/save/",
+      url: url + "/reports/save/",
       data: formData,
       success: function (response) {
         handleAlerts("success", "Report created successfully");

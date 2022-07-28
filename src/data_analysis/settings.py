@@ -9,13 +9,13 @@ https://docs.djangoproject.com/en/4.0/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.0/ref/settings/
 """
-
-from pathlib import Path
+import logging.config
 import os
+from django.utils.log import DEFAULT_LOGGING
+from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
-
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.0/howto/deployment/checklist/
@@ -24,13 +24,12 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = str(os.environ.get("DEBUG")) == "1"	
+DEBUG = str(os.environ.get("DEBUG")) == "1"
 
 # Allowed_hosts	
-ALLOWED_HOSTS = []	
-if ENV_ALLOWED_HOST := os.environ.get("ENV_ALLOWED_HOST", None):	
+ALLOWED_HOSTS = []
+if ENV_ALLOWED_HOST := os.environ.get("ENV_ALLOWED_HOST", None):
     ALLOWED_HOSTS = [ENV_ALLOWED_HOST]
-
 
 # Application definition
 
@@ -84,38 +83,38 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'data_analysis.wsgi.application'
 
-
 # Database
 # https://docs.djangoproject.com/en/4.0/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+
+DB_USERNAME = os.environ.get("POSTGRES_USER")
+DB_PASSWORD = os.environ.get("POSTGRES_PASSWORD")
+DB_DATABASE = os.environ.get("POSTGRES_DB")
+DB_HOST = os.environ.get("POSTGRES_HOST")
+DB_PORT = os.environ.get("POSTGRES_PORT")
+DB_IS_AVAIL = all([DB_USERNAME, DB_PASSWORD, DB_DATABASE, DB_HOST, DB_PORT])
+DB_IGNORE_SSL = os.environ.get("DB_IGNORE_SSL") == "true"
+
+if DB_IS_AVAIL:
+    DATABASES = {
+        "default": {
+            "ENGINE": "django.db.backends.postgresql",
+            "NAME": DB_DATABASE,
+            "USER": DB_USERNAME,
+            "PASSWORD": DB_PASSWORD,
+            "HOST": DB_HOST,
+            "PORT": DB_PORT,
+        }
     }
-}
-
-# DB_USERNAME = os.environ.get("POSTGRES_USER")	
-# DB_PASSWORD = os.environ.get("POSTGRES_PASSWORD")	
-# DB_DATABASE = os.environ.get("POSTGRES_DB")	
-# DB_HOST = os.environ.get("POSTGRES_HOST")	
-# DB_PORT = os.environ.get("POSTGRES_PORT")	
-# DB_IS_AVAIL = all([DB_USERNAME, DB_PASSWORD, DB_DATABASE, DB_HOST, DB_PORT])	
-# DB_IGNORE_SSL = os.environ.get("DB_IGNORE_SSL") == "true"
-
-# if DB_IS_AVAIL:	
-#     DATABASES = {	
-#         "default": {	
-#             "ENGINE": "django.db.backends.postgresql",	
-#             "NAME": DB_DATABASE,	
-#             "USER": DB_USERNAME,	
-#             "PASSWORD": DB_PASSWORD,	
-#             "HOST": DB_HOST,	
-#             "PORT": DB_PORT,	
-#         }	
-#     }	
-#     if not DB_IGNORE_SSL:	
-#         DATABASES["default"]["OPTIONS"] = {"sslmode": "require"}
+    if not DB_IGNORE_SSL:
+        DATABASES["default"]["OPTIONS"] = {"sslmode": "require"}
+else:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': BASE_DIR / 'db.sqlite3',
+        }
+    }
 
 # Password validation
 # https://docs.djangoproject.com/en/4.0/ref/settings/#auth-password-validators
@@ -135,7 +134,6 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
 # Internationalization
 # https://docs.djangoproject.com/en/4.0/topics/i18n/
 
@@ -150,19 +148,65 @@ USE_TZ = True
 # Authentication
 LOGIN_URL = '/login/'
 
-# Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/4.0/howto/static-files/
-
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-STATIC_URL = '/static/'
+# Static files (CSS, JavaScript, Images)
+# https://docs.djangoproject.com/en/4.0/howto/static-files/
+
+AWS_ACCESS_KEY_ID = os.environ.get('STATIC_ACCESS_KEY_ID')
+AWS_SECRET_ACCESS_KEY = os.environ.get('STATIC_SECRET_KEY')
+
+AWS_STORAGE_BUCKET_NAME = os.environ.get('STATIC_BUCKET_NAME')
+AWS_S3_ENDPOINT_URL = os.environ.get('STATIC_ENDPOINT_URL')
+AWS_S3_OBJECT_PARAMETERS = {
+    'CacheControl': 'max-age=86400',
+}
+AWS_LOCATION = 'static'
+AWS_DEFAULT_ACL = 'public-read'
+
+STATICFILES_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
+
+STATIC_URL = f'{AWS_S3_ENDPOINT_URL}/{AWS_LOCATION}/'
+
 STATICFILES_DIRS = [BASE_DIR / 'static',
                     BASE_DIR / 'sales' / 'static',
                     BASE_DIR / 'reports' / 'static']
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
+
+# Logging Configuration
+
+# Disable Django's logging setup
+LOGGING_CONFIG = None
+
+# Get loglevel from env
+LOGLEVEL = os.environ.get('DJANGO_LOGLEVEL', 'info').upper()
+
+logging.config.dictConfig({
+    'version': 1,
+    'disable_existing_loggers': False,
+    'formatters': {
+        'console': {
+            # exact format is not important, this is the minimum information
+            'format': '%(asctime)s %(levelname)s [%(name)s:%(lineno)s] %(module)s %(process)d %(thread)d %(message)s',
+        },
+    },
+    'handlers': {
+        # console logs to stderr
+        'console': {
+            'class': 'logging.StreamHandler',
+            'formatter': 'console',
+        },
+    },
+    'loggers': {
+        '': {
+            'level': LOGLEVEL,
+            'handlers': ['console', ],
+        },
+    },
+})

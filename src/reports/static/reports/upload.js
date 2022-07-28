@@ -1,5 +1,6 @@
 const csrf = document.getElementsByName("csrfmiddlewaretoken")[0].value;
 const alertBox = document.getElementById("alert-box");
+const url = window.location.origin;
 
 const handleAlerts = (type, msg) => {
   alertBox.innerHTML = `
@@ -11,7 +12,7 @@ const handleAlerts = (type, msg) => {
 
 Dropzone.autoDiscover = false;
 const myDropzone = new Dropzone("#my-dropzone", {
-  url: "/reports/upload/",
+  url: url + "/reports/upload/",
   init: function () {
     this.on("sending", function (file, xhr, formData) {
       formData.append("csrfmiddlewaretoken", csrf);

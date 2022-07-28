@@ -34,8 +34,8 @@ class UploadTemplateView(LoginRequiredMixin, TemplateView):
 @login_required()
 def csv_upload_view(request):
     if request.method == "POST":
-        csv_file = request.FILES.get("file")
-        csv_file_name = csv_file.name
+        csv_file_name = request.FILES.get('file').name
+        csv_file = request.FILES.get('file')
         obj, created = CSV.objects.get_or_create(file_name=csv_file_name)
 
         if not created:
@@ -45,17 +45,13 @@ def csv_upload_view(request):
         obj.save()
         with open(obj.csv_file.path, "r") as f:
             reader = csv.reader(f)
-            reader.__next__()
+            next(reader)
             for row in reader:
-                data = "".join(row)
-                data = data.split(";")
-                data.pop()
-
-                transaction_id = data[1]
-                product = data[2]
-                quantity = int(data[3])
-                customer = data[4]
-                date = parse_date(data[5])
+                transaction_id = row[1]
+                product = row[2]
+                quantity = int(row[3])
+                customer = row[4]
+                date = parse_date(row[5])
 
                 try:
                     product_obj = Product.objects.get(name__iexact=product)
@@ -84,7 +80,9 @@ def csv_upload_view(request):
 
 @login_required()
 def create_report_view(request):
-    if request.is_ajax():
+    # The below line got deprecated in Django 3.1
+    # if request.is_ajax():
+    if request.headers.get('x-requested-with') == 'XMLHttpRequest':
         name = request.POST.get("name")
         remarks = request.POST.get('remarks')
         image = request.POST.get("image")
