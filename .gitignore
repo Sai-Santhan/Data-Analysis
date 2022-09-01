@@ -1,4 +1,3 @@
-migrations/
 .env
 .prod.env
 .DS_Store
@@ -125,7 +124,7 @@ celerybeat.pid
 *.sage.py
 
 # Environments
-.env
+#.env -> already included in .gitignore
 .venv
 env/
 venv/

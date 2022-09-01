@@ -33,6 +33,7 @@ def get_graph():
 
 
 def get_key(res_by):
+    key = None
     if res_by == "#1":
         key = "transaction_id"
     elif res_by == "#2":

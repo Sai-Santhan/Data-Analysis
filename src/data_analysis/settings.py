@@ -11,7 +11,7 @@ https://docs.djangoproject.com/en/4.0/ref/settings/
 """
 import logging.config
 import os
-from django.utils.log import DEFAULT_LOGGING
+# from django.utils.log import DEFAULT_LOGGING
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -49,6 +49,7 @@ INSTALLED_APPS = [
     'sales',
     # external
     'crispy_forms',
+    'storages',
 ]
 
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
@@ -157,28 +158,35 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.0/howto/static-files/
 
-AWS_ACCESS_KEY_ID = os.environ.get('STATIC_ACCESS_KEY_ID')
-AWS_SECRET_ACCESS_KEY = os.environ.get('STATIC_SECRET_KEY')
+USE_SPACES = os.getenv('USE_SPACES') == 'TRUE'
 
-AWS_STORAGE_BUCKET_NAME = os.environ.get('STATIC_BUCKET_NAME')
-AWS_S3_ENDPOINT_URL = os.environ.get('STATIC_ENDPOINT_URL')
-AWS_S3_OBJECT_PARAMETERS = {
-    'CacheControl': 'max-age=86400',
-}
-AWS_LOCATION = 'static'
-AWS_DEFAULT_ACL = 'public-read'
+if USE_SPACES:
+    # settings
+    AWS_ACCESS_KEY_ID = os.getenv('STATIC_ACCESS_KEY_ID')
+    AWS_SECRET_ACCESS_KEY = os.getenv('STATIC_SECRET_KEY')
+    AWS_STORAGE_BUCKET_NAME = os.getenv('STATIC_BUCKET_NAME')
+    AWS_DEFAULT_ACL = 'public-read'
+    AWS_S3_ENDPOINT_URL = os.environ.get('STATIC_ENDPOINT_URL')
+    AWS_S3_OBJECT_PARAMETERS = {'CacheControl': 'max-age=86400'}
+    # static settings
+    AWS_LOCATION = 'static'
+    STATIC_URL = f'{AWS_S3_ENDPOINT_URL}/{AWS_LOCATION}/'
+    STATICFILES_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
+    # media settings
+    # MEDIA_URL = f'https://{AWS_S3_ENDPOINT_URL}/{PUBLIC_MEDIA_LOCATION}/'
+    DEFAULT_FILE_STORAGE = 'data_analysis.storages.MediaStorage'
 
-STATICFILES_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
+# TODO - Should we make the staticfiles and mediafiles directory beforehand
 
-STATIC_URL = f'{AWS_S3_ENDPOINT_URL}/{AWS_LOCATION}/'
+else:
+    STATIC_URL = 'static/'
+    STATIC_ROOT = BASE_DIR / 'staticfiles'
+    MEDIA_URL = '/media/'
+    MEDIA_ROOT = BASE_DIR / 'mediafiles'
 
 STATICFILES_DIRS = [BASE_DIR / 'static',
                     BASE_DIR / 'sales' / 'static',
                     BASE_DIR / 'reports' / 'static']
-
-MEDIA_URL = '/media/'
-MEDIA_ROOT = BASE_DIR / 'media'
-
 # Logging Configuration
 
 # Disable Django's logging setup
