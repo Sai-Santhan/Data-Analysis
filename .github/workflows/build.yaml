@@ -40,7 +40,7 @@ jobs:
           doctl kubernetes cluster kubeconfig save --expiry-seconds 600 ${{ env.CLUSTER_NAME }}
       - name: Update deployment secrets
         run: |
-          cat << EOF >> web/.env.prod
+          cat << EOF >> web/.prod.env
           DEBUG=${{ secrets.DEBUG }}
           USE_SPACES=${{ secrets.USE_SPACES }}
           DJANGO_LOGLEVEL=${{ secrets.DJANGO_LOGLEVEL }}
@@ -61,7 +61,7 @@ jobs:
           DB_IGNORE_SSL=${{ secrets.DB_IGNORE_SSL }}
           EOF
           kubectl delete secret data-analysis-web-prod-env
-          kubectl create secret generic data-analysis-web-prod-env --from-env-file=web/.env.prod
+          kubectl create secret generic data-analysis-web-prod-env --from-env-file=web/.prod.env
       - name: Update Deployment image
         run: |
           kubectl set image deployment/data-analysis-web-deployment data-analysis-web=registry.digitalocean.com/my-do-private-registry/data-analysis-web:${GITHUB_SHA::7}
