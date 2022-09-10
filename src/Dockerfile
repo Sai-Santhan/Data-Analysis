@@ -1,7 +1,7 @@
 # Dockerfile for Django Applications
 
 # Base image
-FROM amd64/python:3.10-slim
+FROM amd64/python:3.10.7-slim-bullseye
 
 # Python Interpreter Flags
 ENV PYTHONDONTWRITEBYTECODE 1

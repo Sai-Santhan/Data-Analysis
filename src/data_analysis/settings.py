@@ -9,13 +9,13 @@ https://docs.djangoproject.com/en/4.0/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.0/ref/settings/
 """
-
-from pathlib import Path
+import logging.config
 import os
+# from django.utils.log import DEFAULT_LOGGING
+from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
-
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.0/howto/deployment/checklist/
@@ -24,24 +24,35 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = str(os.environ.get("DEBUG")) == "1"	
+DEBUG = str(os.environ.get("DEBUG")) == "1"
 
 # Allowed_hosts	
-ALLOWED_HOSTS = []	
-if ENV_ALLOWED_HOST := os.environ.get("ENV_ALLOWED_HOST", None):	
+ALLOWED_HOSTS = []
+if ENV_ALLOWED_HOST := os.environ.get("ENV_ALLOWED_HOST", None):
     ALLOWED_HOSTS = [ENV_ALLOWED_HOST]
-
 
 # Application definition
 
 INSTALLED_APPS = [
+    'jazzmin',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    # internal
+    'customers',
+    'products',
+    'profiles',
+    'reports',
+    'sales',
+    # external
+    'crispy_forms',
+    'storages',
 ]
+
+CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -58,7 +69,7 @@ ROOT_URLCONF = 'data_analysis.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [BASE_DIR / 'templates'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -73,38 +84,38 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'data_analysis.wsgi.application'
 
-
 # Database
 # https://docs.djangoproject.com/en/4.0/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
-}
 
-DB_USERNAME = os.environ.get("POSTGRES_USER")	
-DB_PASSWORD = os.environ.get("POSTGRES_PASSWORD")	
-DB_DATABASE = os.environ.get("POSTGRES_DB")	
-DB_HOST = os.environ.get("POSTGRES_HOST")	
-DB_PORT = os.environ.get("POSTGRES_PORT")	
-DB_IS_AVAIL = all([DB_USERNAME, DB_PASSWORD, DB_DATABASE, DB_HOST, DB_PORT])	
+DB_USERNAME = os.environ.get("POSTGRES_USER")
+DB_PASSWORD = os.environ.get("POSTGRES_PASSWORD")
+DB_DATABASE = os.environ.get("POSTGRES_DB")
+DB_HOST = os.environ.get("POSTGRES_HOST")
+DB_PORT = os.environ.get("POSTGRES_PORT")
+DB_IS_AVAIL = all([DB_USERNAME, DB_PASSWORD, DB_DATABASE, DB_HOST, DB_PORT])
 DB_IGNORE_SSL = os.environ.get("DB_IGNORE_SSL") == "true"
 
-if DB_IS_AVAIL:	
-    DATABASES = {	
-        "default": {	
-            "ENGINE": "django.db.backends.postgresql",	
-            "NAME": DB_DATABASE,	
-            "USER": DB_USERNAME,	
-            "PASSWORD": DB_PASSWORD,	
-            "HOST": DB_HOST,	
-            "PORT": DB_PORT,	
-        }	
-    }	
-    if not DB_IGNORE_SSL:	
+if DB_IS_AVAIL:
+    DATABASES = {
+        "default": {
+            "ENGINE": "django.db.backends.postgresql",
+            "NAME": DB_DATABASE,
+            "USER": DB_USERNAME,
+            "PASSWORD": DB_PASSWORD,
+            "HOST": DB_HOST,
+            "PORT": DB_PORT,
+        }
+    }
+    if not DB_IGNORE_SSL:
         DATABASES["default"]["OPTIONS"] = {"sslmode": "require"}
+else:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': BASE_DIR / 'db.sqlite3',
+        }
+    }
 
 # Password validation
 # https://docs.djangoproject.com/en/4.0/ref/settings/#auth-password-validators
@@ -124,6 +135,13 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+PASSWORD_HASHERS = [
+    'django.contrib.auth.hashers.Argon2PasswordHasher',
+    'django.contrib.auth.hashers.PBKDF2PasswordHasher',
+    'django.contrib.auth.hashers.PBKDF2SHA1PasswordHasher',
+    'django.contrib.auth.hashers.BCryptSHA256PasswordHasher',
+    'django.contrib.auth.hashers.ScryptPasswordHasher',
+]
 
 # Internationalization
 # https://docs.djangoproject.com/en/4.0/topics/i18n/
@@ -136,13 +154,76 @@ USE_I18N = True
 
 USE_TZ = True
 
+# Authentication
+LOGIN_URL = '/login/'
 
-# Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/4.0/howto/static-files/
-
-STATIC_URL = 'static/'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+# Static files (CSS, JavaScript, Images)
+# https://docs.djangoproject.com/en/4.0/howto/static-files/
+
+USE_SPACES = os.environ.get('USE_SPACES') == 'TRUE'
+
+if USE_SPACES:
+    # settings
+    AWS_ACCESS_KEY_ID = os.environ.get('STATIC_ACCESS_KEY_ID')
+    AWS_SECRET_ACCESS_KEY = os.environ.get('STATIC_SECRET_KEY')
+    AWS_STORAGE_BUCKET_NAME = os.environ.get('STATIC_BUCKET_NAME')
+    AWS_DEFAULT_ACL = 'public-read'
+    AWS_S3_ENDPOINT_URL = os.environ.get('STATIC_ENDPOINT_URL')
+    AWS_S3_OBJECT_PARAMETERS = {'CacheControl': 'max-age=86400'}
+    # static settings
+    AWS_LOCATION = 'static'
+    STATIC_URL = f'{AWS_S3_ENDPOINT_URL}/{AWS_LOCATION}/'
+    STATICFILES_STORAGE = 'data_analysis.storages.StaticStorage'
+    # media settings
+    PUBLIC_MEDIA_LOCATION = 'media'
+    MEDIA_URL = f'{AWS_S3_ENDPOINT_URL}/{PUBLIC_MEDIA_LOCATION}/'
+    DEFAULT_FILE_STORAGE = 'data_analysis.storages.MediaStorage'
+
+# TODO - Should we make the staticfiles and mediafiles directory beforehand
+
+else:
+    STATIC_URL = 'static/'
+    STATIC_ROOT = BASE_DIR / 'staticfiles'
+    MEDIA_URL = 'media/'
+    MEDIA_ROOT = BASE_DIR / 'mediafiles'
+
+STATICFILES_DIRS = [BASE_DIR / 'static',
+                    BASE_DIR / 'sales' / 'static',
+                    BASE_DIR / 'reports' / 'static']
+# Logging Configuration
+
+# Disable Django's logging setup
+LOGGING_CONFIG = None
+
+# Get loglevel from env
+LOGLEVEL = os.environ.get('DJANGO_LOGLEVEL', 'info').upper()
+
+logging.config.dictConfig({
+    'version': 1,
+    'disable_existing_loggers': False,
+    'formatters': {
+        'console': {
+            # exact format is not important, this is the minimum information
+            'format': '%(asctime)s %(levelname)s [%(name)s:%(lineno)s] %(module)s %(process)d %(thread)d %(message)s',
+        },
+    },
+    'handlers': {
+        # console logs to stderr
+        'console': {
+            'class': 'logging.StreamHandler',
+            'formatter': 'console',
+        },
+    },
+    'loggers': {
+        '': {
+            'level': LOGLEVEL,
+            'handlers': ['console', ],
+        },
+    },
+})

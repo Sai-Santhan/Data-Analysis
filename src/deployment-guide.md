@@ -8,28 +8,28 @@ python manage.py test
 
 ```
 docker build -f Dockerfile \
-    -t registry.digitalocean.com/my-private-registry333/data-analysis-web:latest \
-    -t registry.digitalocean.com/my-private-registry333/data-analysis-web:v1 \
+    -t registry.digitalocean.com/my-do-private-registry/data-analysis-web:latest \
+    -t registry.digitalocean.com/my-do-private-registry/data-analysis-web:v1 \
     .
 ```
 
 3. Push this container to DO Container Registry
 
 ```
-docker push registry.digitalocean.com/my-private-registry333/data-analysis-web --all-tags
+docker push registry.digitalocean.com/my-do-private-registry/data-analysis-web --all-tags
 ```
 
 4. Update secrets
 
 ```
 kubectl delete secret data-analysis-web-prod-env
-kubectl create secret generic data-analysis-web-prod-env --from-env-file=web/.env.prod
+kubectl create secret generic data-analysis-web-prod-env --from-env-file=src/.prod.env
 ```
 
 5. Update Deployment
 
 ```
-kubectl apply -f k8s/apps/data-analysis-web.yaml
+kubectl apply -f k8s/app/data-analysis-web.yaml
 ```
 
 6. Wait for Rollout to finish

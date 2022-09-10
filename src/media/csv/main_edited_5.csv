@@ -1,0 +1,10 @@
+main
+Pos,Transaction id,Product,Quantity,Customer,Date
+1,E100,TV,1,Test Customer,2022-07-17
+2,E100,Laptop,3,Test Customer,2022-07-17
+3,E200,TV,1,Test Customer,2022-07-18
+4,E300,iphone,2,New1,2022-07-18
+5,E300,Laptop,5,Test Customer,2022-07-18
+6,E300,TV,1,New2,2022-07-19
+7,E400,TV,2,Crackpot,2022-07-20
+8,E500,Smartwatch,4,Crackpot,2022-07-20
