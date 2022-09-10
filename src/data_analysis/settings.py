@@ -135,6 +135,14 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+PASSWORD_HASHERS = [
+    'django.contrib.auth.hashers.Argon2PasswordHasher',
+    'django.contrib.auth.hashers.PBKDF2PasswordHasher',
+    'django.contrib.auth.hashers.PBKDF2SHA1PasswordHasher',
+    'django.contrib.auth.hashers.BCryptSHA256PasswordHasher',
+    'django.contrib.auth.hashers.ScryptPasswordHasher',
+]
+
 # Internationalization
 # https://docs.djangoproject.com/en/4.0/topics/i18n/
 
@@ -158,22 +166,23 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.0/howto/static-files/
 
-USE_SPACES = os.getenv('USE_SPACES') == 'TRUE'
+USE_SPACES = os.environ.get('USE_SPACES') == 'TRUE'
 
 if USE_SPACES:
     # settings
-    AWS_ACCESS_KEY_ID = os.getenv('STATIC_ACCESS_KEY_ID')
-    AWS_SECRET_ACCESS_KEY = os.getenv('STATIC_SECRET_KEY')
-    AWS_STORAGE_BUCKET_NAME = os.getenv('STATIC_BUCKET_NAME')
+    AWS_ACCESS_KEY_ID = os.environ.get('STATIC_ACCESS_KEY_ID')
+    AWS_SECRET_ACCESS_KEY = os.environ.get('STATIC_SECRET_KEY')
+    AWS_STORAGE_BUCKET_NAME = os.environ.get('STATIC_BUCKET_NAME')
     AWS_DEFAULT_ACL = 'public-read'
     AWS_S3_ENDPOINT_URL = os.environ.get('STATIC_ENDPOINT_URL')
     AWS_S3_OBJECT_PARAMETERS = {'CacheControl': 'max-age=86400'}
     # static settings
     AWS_LOCATION = 'static'
     STATIC_URL = f'{AWS_S3_ENDPOINT_URL}/{AWS_LOCATION}/'
-    STATICFILES_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
+    STATICFILES_STORAGE = 'data_analysis.storages.StaticStorage'
     # media settings
-    # MEDIA_URL = f'https://{AWS_S3_ENDPOINT_URL}/{PUBLIC_MEDIA_LOCATION}/'
+    PUBLIC_MEDIA_LOCATION = 'media'
+    MEDIA_URL = f'{AWS_S3_ENDPOINT_URL}/{PUBLIC_MEDIA_LOCATION}/'
     DEFAULT_FILE_STORAGE = 'data_analysis.storages.MediaStorage'
 
 # TODO - Should we make the staticfiles and mediafiles directory beforehand
@@ -181,7 +190,7 @@ if USE_SPACES:
 else:
     STATIC_URL = 'static/'
     STATIC_ROOT = BASE_DIR / 'staticfiles'
-    MEDIA_URL = '/media/'
+    MEDIA_URL = 'media/'
     MEDIA_ROOT = BASE_DIR / 'mediafiles'
 
 STATICFILES_DIRS = [BASE_DIR / 'static',
