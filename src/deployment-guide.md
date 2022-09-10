@@ -8,17 +8,17 @@ python manage.py test
 
 ```
 docker build -f Dockerfile \
-    -t registry.digitalocean.com/my-private-registry333/data-analysis-web:latest \
-    -t registry.digitalocean.com/my-private-registry333/data-analysis-web:v1 \
+    -t registry.digitalocean.com/my-do-private-registry/data-analysis-web:latest \
+    -t registry.digitalocean.com/my-do-private-registry/data-analysis-web:v1 \
     .
 ```
 
 3. Push this container to DO Container Registry
 
 ```
-docker push registry.digitalocean.com/my-private-registry333/data-analysis-web --all-tags
+docker push registry.digitalocean.com/my-do-private-registry/data-analysis-web --all-tags
 ```
-
+ 
 4. Update secrets
 
 ```
