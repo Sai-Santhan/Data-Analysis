@@ -18,7 +18,7 @@ docker build -f Dockerfile \
 ```
 docker push registry.digitalocean.com/my-do-private-registry/data-analysis-web --all-tags
 ```
- 
+
 4. Update secrets
 
 ```
