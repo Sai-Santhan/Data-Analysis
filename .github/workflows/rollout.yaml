@@ -8,7 +8,7 @@ jobs:
   rollout:
     runs-on: ubuntu-latest
     env:
-      CLUSTER_NAME: django-k8s
+      CLUSTER_NAME: data-analysis
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
@@ -21,4 +21,4 @@ jobs:
           doctl kubernetes cluster kubeconfig save --expiry-seconds 600 ${{ env.CLUSTER_NAME }}
       - name: Run rollout on Deployment
         run: |
-          kubectl rollout restart deployment/django-k8s-web-deployment
+          kubectl rollout restart deployment/data-analysis-web-deployment
