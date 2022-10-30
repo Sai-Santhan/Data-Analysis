@@ -1,3 +1,4 @@
+media/
 .env
 .prod.env
 .DS_Store
