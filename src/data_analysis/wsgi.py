@@ -10,15 +10,12 @@ https://docs.djangoproject.com/en/4.0/howto/deployment/wsgi/
 import os
 import pathlib
 
-# import dotenv
-from django.conf import settings
+import dotenv
 from django.core.wsgi import get_wsgi_application
 
-if settings.DEBUG:
-    import dotenv
-    BASE_DIR = pathlib.Path(__file__).resolve().parent.parent
-    ENV_FILE_PATH = BASE_DIR / '.env'
-    dotenv.read_dotenv(str(ENV_FILE_PATH))
+BASE_DIR = pathlib.Path(__file__).resolve().parent.parent
+ENV_FILE_PATH = BASE_DIR / '.env'
+dotenv.read_dotenv(str(ENV_FILE_PATH))
 
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'data_analysis.settings')
 
