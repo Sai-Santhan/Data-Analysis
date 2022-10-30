@@ -8,7 +8,7 @@ jobs:
   rollout:
     runs-on: ubuntu-latest
     env:
-      CLUSTER_NAME: data-analysis
+      CLUSTER_NAME: data-analysis-cluster
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
