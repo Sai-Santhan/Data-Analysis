@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.humanize',
     # internal
     'customers',
     'products',
@@ -157,7 +158,6 @@ USE_TZ = True
 # Authentication
 LOGIN_URL = '/login/'
 
-
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
 
@@ -166,7 +166,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.0/howto/static-files/
 
-USE_SPACES = os.environ.get('USE_SPACES') == 'TRUE'
+USE_SPACES = os.environ.get('USE_SPACES')
 
 if USE_SPACES:
     # settings
@@ -191,7 +191,7 @@ else:
     STATIC_URL = 'static/'
     STATIC_ROOT = BASE_DIR / 'staticfiles'
     MEDIA_URL = 'media/'
-    MEDIA_ROOT = BASE_DIR / 'mediafiles'
+    MEDIA_ROOT = BASE_DIR / 'media'
 
 STATICFILES_DIRS = [BASE_DIR / 'static',
                     BASE_DIR / 'sales' / 'static',
