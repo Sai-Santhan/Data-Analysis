@@ -10,7 +10,7 @@ const reportRemarks = document.getElementById("id_remarks");
 const csrf = document.getElementsByName("csrfmiddlewaretoken")[0].value;
 
 const handleAlerts = (type, msg) => {
-  alertBox.innerHTML = `
+    alertBox.innerHTML = `
     <div class="alert alert-${type}" role="alert">
       ${msg}
     </div>
@@ -18,35 +18,35 @@ const handleAlerts = (type, msg) => {
 };
 
 if (img) {
-  reportBtn.classList.remove("not-visible");
+    reportBtn.classList.remove("not-visible");
 }
 
 reportBtn.addEventListener("click", () => {
 
-  img.setAttribute("class", "w-100");
-  modalBody.prepend(img);
+    img.setAttribute("class", "w-100");
+    modalBody.prepend(img);
 
-  reportForm.addEventListener("submit", (e) => {
-    e.preventDefault();
-    const formData = new FormData();
-    formData.append("csrfmiddlewaretoken", csrf);
-    formData.append("name", reportName.value);
-    formData.append("remarks", reportRemarks.value);
-    formData.append("image", img.src);
+    reportForm.addEventListener("submit", (e) => {
+        e.preventDefault();
+        const formData = new FormData();
+        formData.append("csrfmiddlewaretoken", csrf);
+        formData.append("name", reportName.value);
+        formData.append("remarks", reportRemarks.value);
+        formData.append("image", img.src);
 
-    $.ajax({
-      type: "POST",
-      url: url + "/reports/save/",
-      data: formData,
-      success: function (response) {
-        handleAlerts("success", "Report created successfully");
-        reportForm.reset();
-      },
-      error: function (error) {
-        handleAlerts("danger", "Oops.. Something went wrong!");
-      },
-      processData: false,
-      contentType: false,
+        $.ajax({
+            type: "POST",
+            url: url + "/reports/save/",
+            data: formData,
+            success: function (response) {
+                handleAlerts("success", "Report created successfully");
+                reportForm.reset();
+            },
+            error: function (error) {
+                handleAlerts("danger", "Oops.. Something went wrong!");
+            },
+            processData: false,
+            contentType: false,
+        });
     });
-  });
 });

@@ -1,10 +1,11 @@
 from django.db import models
-from products.models import Product
-from customers.models import Customer
-from profiles.models import Profile
-from django.utils import timezone
-from .utils import generate_code
 from django.shortcuts import reverse
+from django.utils import timezone
+
+from customers.models import Customer
+from products.models import Product
+from profiles.models import Profile
+from sales.utils import generate_code
 
 
 class Position(models.Model):

@@ -1,6 +1,7 @@
 from django.db import models
-from profiles.models import Profile
 from django.urls import reverse
+
+from profiles.models import Profile
 
 
 class Report(models.Model):
