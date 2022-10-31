@@ -1,10 +1,12 @@
-import uuid
 import base64
-from customers.models import Customer
-from profiles.models import Profile
+import uuid
 from io import BytesIO
+
 import matplotlib.pyplot as plt
 import seaborn as sns
+
+from customers.models import Customer
+from profiles.models import Profile
 
 
 def generate_code():
@@ -43,7 +45,7 @@ def get_key(res_by):
 
 def get_chart(chart_type, data, results_by, **kwargs):
     plt.switch_backend('AGG')
-    fig = plt.figure(figsize=(10, 4))
+    fig = plt.figure(figsize=(12, 7))
     key = get_key(results_by)
     d = data.groupby(key, as_index=False)["total_price"].agg("sum")
     if chart_type == "#1":
@@ -59,6 +61,3 @@ def get_chart(chart_type, data, results_by, **kwargs):
     plt.tight_layout()
     chart = get_graph()
     return chart
-
-
-
