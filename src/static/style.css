@@ -1,58 +1,12 @@
-/*html {*/
-/*    background: rgba(255, 255, 255, 0.19);*/
-/*    border-radius: 16px;*/
-/*    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);*/
-/*    backdrop-filter: blur(7.4px);*/
-/*    -webkit-backdrop-filter: blur(7.4px);*/
-/*    border: 1px solid rgba(255, 255, 255, 0.41);*/
-/*}*/
-
-/*.navbar-custom {*/
-/*    background-color: lightgreen;*/
-/*}*/
-
-/*!* Modify brand and text color *!*/
-
-/*.navbar-custom .navbar-brand,*/
-/*.navbar-custom .navbar-text {*/
-/*    color: green;*/
-/*}*/
-
 .pdf-image {
     width: 100%;
     height: auto;
 }
 
-/*!* Color of the links BEFORE scroll *!*/
-/*.navbar-scroll .nav-link,*/
-/*.navbar-scroll .navbar-toggler-icon,*/
-/*.navbar-scroll .navbar-brand {*/
-/*    color: #fff;*/
-/*}*/
-
-/*!* Color of the links AFTER scroll *!*/
-/*.navbar-scrolled .nav-link,*/
-/*.navbar-scrolled .navbar-toggler-icon,*/
-/*.navbar-scrolled .navbar-brand {*/
-/*    color: #fff;*/
-/*}*/
-
-/*!* Color of the navbar AFTER scroll *!*/
-/*.navbar-scroll,*/
-/*.navbar-scrolled {*/
-/*    background-color: #cbbcb1;*/
-/*}*/
-
 .mask-custom {
     backdrop-filter: blur(5px);
     background-color: rgba(255, 255, 255, .15);
 }
-
-/*.navbar-brand {*/
-/*    font-size: 1.75rem;*/
-/*    letter-spacing: 3px;*/
-/*}*/
-
 
 .btn-grad {
     background-image: linear-gradient(to right, #DA22FF 0%, #9733EE 51%, #DA22FF 100%);
@@ -75,16 +29,11 @@
 
 body {
     background: #FA8BFF linear-gradient(110deg, #d9e7ff, #e3ffe7, #d9e7ff, #e3ffe7, #d9e7ff) fixed;
-    /*background-image: linear-gradient(90deg, #00C9FF 0%, #92FE9D 100%);*/
-    /*background-image: radial-gradient(#4BC0C8, #C779D0);*/
-
 }
 
 .form-glass {
     background: rgba(255, 255, 255, 0.33);
     box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
-    /*backdrop-filter: blur(10px) saturate(100%) contrast(45%) brightness(130%);*/
-    /*-webkit-backdrop-filter: blur(10px) saturate(100%) contrast(45%) brightness(130%);*/
     backdrop-filter: blur(4px);
     -webkit-backdrop-filter: blur(4px);
     border-radius: 10px;
