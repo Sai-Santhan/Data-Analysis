@@ -1,17 +1,25 @@
 {% extends "base.html" %}
+{% load humanize %}
 
 {% block title %}
-{{object.name}}
+    {{ object.name }}
 {% endblock title %}
 
 {% block content %}
-{% if object.image %}
-<img src="{{object.image.url}}" class="img-fluid" alt="{{object.name}}">
-{% endif %}
-<br>
-<h3>Remarks</h3>
-<p>{{object.remarks}}</p>
-<hr>
-<p>author: <b>{{object.author.user.username}}</b></p>
-<p>created: <b>{{object.created}}</b></p>
+    <div class="row text-center m-4 border light-blue glass">
+        <div class="col-8">
+            {% if object.image %}
+                <img src="{{ object.image.url }}" class="img-thumbnail img-fluid glass text-muted"
+                     alt="{{ object.name }}">
+            {% endif %}
+        </div>
+        <div class="col-4">
+            <h3>Remarks</h3>
+            <p>{{ object.remarks }}</p>
+            <hr>
+            <p>Author: <b>{{ object.author.user.username }}</b></p>
+            <hr>
+            <p>Created: <b>{{ object.created|naturaltime }}</b></p>
+        </div>
+    </div>
 {% endblock content %}

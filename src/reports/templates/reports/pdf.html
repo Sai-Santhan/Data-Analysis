@@ -1,28 +1,25 @@
+{% load static %}
 <!doctype html>
 <html lang="en">
 
 <head>
     <meta charset="utf-8">
-
-    <title>PDF {{obj.name}}</title>
-    <style>
-        .image {
-            width: 100%;
-            height: auto;
-        }
-    </style>
+    <link rel="stylesheet" href="{% static 'style.css' %}">
+    <title>PDF {{ obj.name }}</title>
 </head>
 
 <body>
-    <h1>{{obj.name}}</h1>
+<div style="text-align: center">
+    <h1>{{ obj.name }}</h1>
     <hr>
-    <img src={{obj.image.path}} class="image">
+    <img src="{{ obj.image.path }}" class="pdf-image light-blue glass" alt="Chart">
     <br>
-    <h3>Remarks</h3>
-    <p>{{obj.remarks}}</p>
+    <h1 style="text-align: center">Remarks</h1>
+    <p>{{ obj.remarks }}</p>
     <hr>
-    <p>author: <b>{{obj.author.user.username}}</b></p>
-    <p>created: <b>{{obj.created}}</b></p>
+    <p>Author: <b>{{ obj.author.user.username }}</b></p>
+    <p>Created: <b>{{ obj.created }}</b></p>
+</div>
 </body>
 
 </html>

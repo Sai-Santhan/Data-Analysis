@@ -1,28 +1,42 @@
 {% extends "base.html" %}
+{% load crispy_forms_filters %}
 {% load crispy_forms_tags %}
 
 {% block title %}
-my profile
+    Profile
 {% endblock title %}
 
 {% block content %}
 
-{% if confirm %}
-<div class="alert alert-primary" role="alert">
-    Your profile has been updated
-</div>
-{% endif %}
+    <p class="text-center display-3 m-4">Profile</p>
 
-<div class="text-center">
-    <img src="{{profile.avatar.url}}" alt="my-profile" class="avatar-big">
-</div>
+    {% if confirm %}
+        <div class="alert alert-primary" role="alert">
+            Your Profile has been Updated.
+        </div>
+    {% endif %}
 
-<br>
+    <div class="text-center">
+        <div class="row">
+            <div class="col-5 align-self-center"><h3>Your Avatar:</h3></div>
+            <div class="col-7 align-self-center"><img src="{{ profile.avatar.url }}" alt="my-profile"
+                                                      class="text-muted avatar-big glass"></div>
+        </div>
+        <div class="row">
+            <div class="col-5 align-self-center"><h3>Your Bio:</h3></div>
+            <div class="col-7 align-self-center light-blue glass m-auto"><h6>{{ profile.bio }}</h6></div>
+        </div>
+    </div>
 
-<form action="" method="POST" enctype="multipart/form-data">
-    {% csrf_token %}
-    {{form|crispy}}
-    <button type="submit" class="btn btn-primary mt-3">update</button>
-</form>
+    <br>
+
+    <p class="text-center display-5 mt-5">Edit</p>
+
+
+    <form action="" method="POST" enctype="multipart/form-data" class="text-center form-style form-glass p-4">
+        {% csrf_token %}
+        {{ form|crispy }}
+        <button type="submit" class="btn btn-primary mt-3">Update</button>
+    </form>
 
 {% endblock content %}

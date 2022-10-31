@@ -1,17 +1,23 @@
 {% extends "base.html" %}
 
 {% block title %}
-sales list
+    Sales List
 {% endblock title %}
 
 {% block content %}
-sales list
-<br>
+    <p class="text-center display-3 m-2">Sales List</p>
+    <br>
+    {% if object_list %}
 
-{% for obj in object_list %}
-<div class="card mb-3">
-    <a href="{{obj.get_absolute_url}}" class="card-body">{{obj.transaction_id}}</a>
-</div>
-{% endfor %}
-
+        <div style="max-width: 600px" class="container">
+            {% for obj in object_list %}
+                <div class="card m-3">
+                    <a href="{{ obj.get_absolute_url }}" class="card-body text-center">{{ obj.transaction_id }}</a>
+                </div>
+            {% endfor %}
+        </div>
+        {% else %}
+        <p class="text-muted text-center display-6 mt-5">No Sales data to show.</p>
+        <p class="text-muted text-center display-6"><a href="{% url 'reports:from-file' %}">Upload CSV</a> to see the data.</p>
+    {% endif %}
 {% endblock content %}
