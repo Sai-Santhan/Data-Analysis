@@ -1,6 +1,6 @@
-from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.forms import AuthenticationForm
+from django.shortcuts import render, redirect
 
 
 def logout_view(request):
@@ -24,7 +24,7 @@ def login_view(request):
                 else:
                     return redirect("sales:home")
         else:
-            error_message = "Ups ... something went wrong"
+            error_message = "Oops ... Something went Wrong!"
     context = {
         "form": form,
         "error_message": error_message
