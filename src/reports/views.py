@@ -1,5 +1,7 @@
 import csv
 
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import JsonResponse, HttpResponse
 from django.shortcuts import get_object_or_404
 from django.template.loader import get_template
@@ -12,9 +14,8 @@ from products.models import Product
 from profiles.models import Profile
 from reports.utils import get_report_image
 from sales.models import CSV, Position, Sale
+from .forms import ReportForm
 from .models import Report
-from django.contrib.auth.decorators import login_required
-from django.contrib.auth.mixins import LoginRequiredMixin
 
 
 class ReportListView(LoginRequiredMixin, ListView):
@@ -80,17 +81,26 @@ def csv_upload_view(request):
 
 @login_required()
 def create_report_view(request):
+    form = ReportForm(request.POST or None)
+
     # The below line got deprecated in Django 3.1
     # if request.is_ajax():
     if request.headers.get('x-requested-with') == 'XMLHttpRequest':
-        name = request.POST.get("name")
-        remarks = request.POST.get('remarks')
+        # name = request.POST.get("name")
+        # remarks = request.POST.get('remarks')
         image = request.POST.get("image")
 
         img = get_report_image(image)
 
         author = Profile.objects.get(user=request.user)
-        Report.objects.create(name=name, remarks=remarks, image=img, author=author)
+
+        if form.is_valid():
+            instance = form.save(commit=False)
+            instance.image = img
+            instance.author = author
+            instance.save()
+
+        # Report.objects.create(name=name, remarks=remarks, image=img, author=author)
         return JsonResponse({'msg': 'send'})
     return JsonResponse({})
 
@@ -100,14 +110,16 @@ def render_pdf_view(request, pk):
     template_path = "reports/pdf.html"
     obj = get_object_or_404(Report, pk=pk)
     context = {"obj": obj}
-
+    # Create a Django response object, and specify content_type as pdf
     response = HttpResponse(content_type="application/pdf")
-
+    # If Download
+    # response["Content-Disposition"] = 'attachment; filename="report.pdf"'
+    # If Display
     response["Content-Disposition"] = 'filename="report.pdf"'
-
+    # Find the template and render it.
     template = get_template(template_path)
     html = template.render(context)
-
+    # Create a pdf
     pisa_status = pisa.CreatePDF(html, dest=response)
 
     if pisa_status.err:
