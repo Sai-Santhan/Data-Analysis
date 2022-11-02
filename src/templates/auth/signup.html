@@ -3,7 +3,7 @@
 {% load crispy_forms_tags %}
 
 {% block title %}
-    Login
+    Signup
 {% endblock title %}
 
 {% block content %}
@@ -12,20 +12,22 @@
         <div class="alert alert-danger">{{ error_message }}</div>
     {% endif %}
 
+
     <form action="" method="post">
         {% csrf_token %}
-        <h1 class="text-center m-3">Login</h1>
+        <h1 class="text-center m-3">Sign Up</h1>
         <div class="form-style form-glass">
             <div class="text-center p-3">
                 {{ form|crispy }}
-                <button type="submit" class="btn btn-grad">Login</button>
+                <button type="submit" class="btn btn-grad">Sign Up</button>
             </div>
         </div>
     </form>
 
     <div class="mt-4 text-center">
         <h5>
-            Don't have an account? <a href="{% url 'signup' %}">Sign Up</a>
+            Do you have an account? <a href="{% url 'login' %}">Login</a>
         </h5>
     </div>
+
 {% endblock content %}
