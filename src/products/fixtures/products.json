@@ -1,0 +1,46 @@
+[
+  {
+    "model": "products.product",
+    "pk": 1,
+    "fields": {
+      "name": "TV",
+      "image": "no_image.webp",
+      "price": 1500.0,
+      "created": "2022-10-26T17:52:17.013Z",
+      "updated": "2022-10-26T17:52:53.083Z"
+    }
+  },
+  {
+    "model": "products.product",
+    "pk": 2,
+    "fields": {
+      "name": "Smartwatch",
+      "image": "no_image.webp",
+      "price": 400.0,
+      "created": "2022-10-26T17:52:33.450Z",
+      "updated": "2022-10-26T17:52:33.450Z"
+    }
+  },
+  {
+    "model": "products.product",
+    "pk": 3,
+    "fields": {
+      "name": "iphone",
+      "image": "no_image.webp",
+      "price": 2000.0,
+      "created": "2022-10-26T17:53:16.961Z",
+      "updated": "2022-10-26T17:53:16.961Z"
+    }
+  },
+  {
+    "model": "products.product",
+    "pk": 4,
+    "fields": {
+      "name": "Laptop",
+      "image": "no_image.webp",
+      "price": 3500.0,
+      "created": "2022-10-26T17:53:27.894Z",
+      "updated": "2022-10-26T17:53:27.894Z"
+    }
+  }
+]
