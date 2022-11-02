@@ -26,20 +26,31 @@ spec:
               value: "8002"
           ports:
             - containerPort: 8002
+              protocol: TCP
       imagePullSecrets:
-        - name:  my-do-private-registry
+        - name: my-do-private-registry
 
 ---
 apiVersion: v1
 kind: Service
 metadata:
   name: data-analysis-web-service
+  annotations:
+    service.beta.kubernetes.io/do-loadbalancer-protocol: "http"
+    service.beta.kubernetes.io/do-loadbalancer-algorithm: "round_robin"
+    service.beta.kubernetes.io/do-loadbalancer-tls-ports: "443"
+    service.beta.kubernetes.io/do-loadbalancer-certificate-id: "be34c4f8-188e-459e-a77e-44ca7ae19a77"
+    service.beta.kubernetes.io/do-loadbalancer-redirect-http-to-https: "true"
 spec:
   type: LoadBalancer
+  selector:
+    app: data-analysis-web-deployment
   ports:
     - name: http
       protocol: TCP
       port: 80
       targetPort: 8002
-  selector:
-    app: data-analysis-web-deployment
+    - name: https
+      protocol: TCP
+      port: 443
+      targetPort: 8002
