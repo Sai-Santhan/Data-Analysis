@@ -68,7 +68,7 @@ def home_view(request):
                             classes='table table-bordered table-hover table-sm')
 
         else:
-            no_data = "No Data is available in this Date range."
+            no_data = "No data is available between the provided dates."
     context = {
         'search_form': search_form,
         'report_form': report_form,
