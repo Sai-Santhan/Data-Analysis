@@ -42,8 +42,9 @@ jobs:
         run: |
           cat << EOF >> src/.prod.env
           DEBUG=${{ secrets.DEBUG }}
-          USE_SPACES=${{ secrets.USE_SPACES }}
+          DJANGO_SECRET_KEY=${{ secrets.DJANGO_SECRET_KEY }}
           DJANGO_LOGLEVEL=${{ secrets.DJANGO_LOGLEVEL }}
+          USE_SPACES=${{ secrets.USE_SPACES }}
           STATIC_ACCESS_KEY_ID=${{ secrets.AWS_ACCESS_KEY_ID }}
           STATIC_SECRET_KEY=${{ secrets.AWS_SECRET_ACCESS_KEY }}
           STATIC_BUCKET_NAME=${{ secrets.AWS_STORAGE_BUCKET_NAME }}
@@ -51,14 +52,22 @@ jobs:
           DJANGO_SUPERUSER_USERNAME=${{ secrets.DJANGO_SUPERUSER_USERNAME }}
           DJANGO_SUPERUSER_PASSWORD=${{ secrets.DJANGO_SUPERUSER_PASSWORD }}
           DJANGO_SUPERUSER_EMAIL=${{ secrets.DJANGO_SUPERUSER_EMAIL }}
-          DJANGO_SECRET_KEY=${{ secrets.DJANGO_SECRET_KEY }}
           ENV_ALLOWED_HOST=${{ secrets.ENV_ALLOWED_HOST }}
+          ENV_CSRF_TRUSTED_ORIGINS=${{ secrets.ENV_CSRF_TRUSTED_ORIGINS }}
+          ENV_CSRF_COOKIE_SECURE=${{ secrets.ENV_CSRF_COOKIE_SECURE }}
+          ENV_SESSION_COOKIE_SECURE=${{ secrets.ENV_SESSION_COOKIE_SECURE }}
+          ENV_SECURE_BROWSER_XSS_FILTER=${{ secrets.ENV_SECURE_BROWSER_XSS_FILTER }}
+          ENV_SECURE_CONTENT_TYPE_NOSNIFF=${{ secrets.ENV_SECURE_CONTENT_TYPE_NOSNIFF }}
+          ENV_SECURE_SSL_REDIRECT=${{ secrets.ENV_SECURE_SSL_REDIRECT }}
+          ENV_SECURE_HSTS_SECONDS=${{ secrets.ENV_SECURE_HSTS_SECONDS }}
+          ENV_SECURE_HSTS_INCLUDE_SUBDOMAINS=${{ secrets.ENV_SECURE_HSTS_INCLUDE_SUBDOMAINS }}
+          ENV_SECURE_HSTS_PRELOAD=${{ secrets.ENV_SECURE_HSTS_PRELOAD }}
+          DB_IGNORE_SSL=${{ secrets.DB_IGNORE_SSL }}
           POSTGRES_DB=${{ secrets.POSTGRES_DB }}
           POSTGRES_PASSWORD=${{ secrets.POSTGRES_PASSWORD }}
           POSTGRES_USER=${{ secrets.POSTGRES_USER }}
           POSTGRES_HOST=${{ secrets.POSTGRES_HOST }}
           POSTGRES_PORT=${{ secrets.POSTGRES_PORT }}
-          DB_IGNORE_SSL=${{ secrets.DB_IGNORE_SSL }}
           EOF
           kubectl delete secret data-analysis-web-prod-env
           kubectl create secret generic data-analysis-web-prod-env --from-env-file=src/.prod.env

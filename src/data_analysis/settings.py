@@ -26,10 +26,29 @@ SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = str(os.environ.get("DEBUG")) == "1"
 
-# Allowed_hosts	
-ALLOWED_HOSTS = []
+# Allowed_hosts
 if ENV_ALLOWED_HOST := os.environ.get("ENV_ALLOWED_HOST", None):
     ALLOWED_HOSTS = [ENV_ALLOWED_HOST]
+
+# Trusted Origins
+if ENV_CSRF_TRUSTED_ORIGINS := os.environ.get("ENV_CSRF_TRUSTED_ORIGINS", None):
+    CSRF_TRUSTED_ORIGINS = [ENV_CSRF_TRUSTED_ORIGINS]
+
+# CSRF
+CSRF_COOKIE_SECURE = os.environ.get("ENV_CSRF_COOKIE_SECURE", False)
+SESSION_COOKIE_SECURE = os.environ.get("ENV_SESSION_COOKIE_SECURE", False)
+
+# XSS
+SECURE_BROWSER_XSS_FILTER = os.environ.get("ENV_SECURE_BROWSER_XSS_FILTER", False)
+SECURE_CONTENT_TYPE_NOSNIFF = os.environ.get("ENV_SECURE_CONTENT_TYPE_NOSNIFF", False)
+
+# SSL Redirect
+SECURE_SSL_REDIRECT = os.environ.get("ENV_SECURE_SSL_REDIRECT", False)
+
+# HTTP Strict Transport Security
+SECURE_HSTS_SECONDS = os.environ.get("ENV_SECURE_HSTS_SECONDS", None)
+SECURE_HSTS_INCLUDE_SUBDOMAINS = os.environ.get("ENV_SECURE_HSTS_INCLUDE_SUBDOMAINS", False)
+SECURE_HSTS_PRELOAD = os.environ.get("ENV_SECURE_HSTS_PRELOAD", False)
 
 # Application definition
 
