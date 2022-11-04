@@ -3,19 +3,19 @@ from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
 from django.shortcuts import render, redirect
 
 
-def handler404(request):
+def handler404(request, exception):
     return render(request, 'errors/404.html')
 
 
-def handler500(request):
+def handler500(request, exception):
     return render(request, 'errors/500.html')
 
 
-def handler403(request):
+def handler403(request, exception):
     return render(request, 'errors/403.html')
 
 
-def handler400(request):
+def handler400(request, exception):
     return render(request, 'errors/400.html')
 
 
