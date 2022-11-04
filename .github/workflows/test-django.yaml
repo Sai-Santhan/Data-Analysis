@@ -1,4 +1,4 @@
-name: Application & Database Tests
+name: Django CI & Postgres Test
 
 on:
   workflow_call:
@@ -10,34 +10,45 @@ jobs:
     defaults:
       run:
         working-directory: ./src
+    env:
+      POSTGRES_DB: dockerdc
+      POSTGRES_PASSWORD: mysecretpassword
+      POSTGRES_USER: myuser
+      POSTGRES_HOST: localhost
+      POSTGRES_PORT: 5432
+      DB_IGNORE_SSL: "true"
     services:
       postgres_main:
         image: postgres:14
         env:
-          POSTGRES_USER: ${{ secrets.POSTGRES_USER }}
-          POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
-          POSTGRES_HOST: ${{ secrets.POSTGRES_HOST }}
-          POSTGRES_PORT: ${{ secrets.POSTGRES_PORT }}
-          POSTGRES_DB: ${{ secrets.POSTGRES_DB }}
+          POSTGRES_USER: ${{ env.POSTGRES_USER }}
+          POSTGRES_PASSWORD: ${{ env.POSTGRES_PASSWORD }}
+          POSTGRES_HOST: ${{ env.POSTGRES_HOST }}
+          POSTGRES_PORT: ${{ env.POSTGRES_PORT }}
+          POSTGRES_DB: ${{ env.POSTGRES_DB }}
         ports:
           - 5432:5432
-        options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
+        options: >-
+          --health-cmd pg_isready 
+          --health-interval 10s 
+          --health-timeout 5s 
+          --health-retries 5
     strategy:
       max-parallel: 4
       matrix:
         python-version: [ "3.10" ]
 
     steps:
-      - uses: actions/checkout@v3
-        name: Check out Repository
-      - uses: actions/setup-python@v4
-        name: Set up Python ${{ matrix.python-version }}
+      - name: Check out Repository
+        uses: actions/checkout@v3
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v4
         with:
           python-version: ${{ matrix.python-version }}
-      - run: |
+      - name: Install Dependencies
+        run: |
           python -m pip install --upgrade pip
           pip install -r requirements.txt
-        name: Install Dependencies
-      - run: |
+      - name: Run Tests
+        run: |
           python manage.py test
-        name: Run Tests

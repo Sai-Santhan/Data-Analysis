@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
         - name: data-analysis-web
-          image: registry.digitalocean.com/my-do-private-registry/data-analysis-web:latest
+          image: registry.digitalocean.com/my-do-registry/data-analysis-web:latest
           imagePullPolicy: Always
           envFrom:
             - secretRef:
@@ -28,7 +28,7 @@ spec:
             - containerPort: 8002
               protocol: TCP
       imagePullSecrets:
-        - name: my-do-private-registry
+        - name: my-do-registry
 
 ---
 apiVersion: v1

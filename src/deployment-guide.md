@@ -8,15 +8,15 @@ python manage.py test
 
 ```
 docker build -f Dockerfile \
-    -t registry.digitalocean.com/my-do-private-registry/data-analysis-web:latest \
-    -t registry.digitalocean.com/my-do-private-registry/data-analysis-web:v1 \
+    -t registry.digitalocean.com/my-do-registry/data-analysis-web:latest \
+    -t registry.digitalocean.com/my-do-registry/data-analysis-web:v1 \
     .
 ```
 
 3. Push this container to DO Container Registry
 
 ```
-docker push registry.digitalocean.com/my-do-private-registry/data-analysis-web --all-tags
+docker push registry.digitalocean.com/my-do-registry/data-analysis-web --all-tags
 ```
 
 4. Update secrets
@@ -50,8 +50,10 @@ or
 export SINGLE_POD_NAME=$(kubectl get pod -l app=data-analysis-web-deployment -o NAME | tail -n 1
 ```
 
-8. Run the Migrations on the Pod
+8. Post-Build Django Commands - Migrate, Collectstatic & Fixtures
 
 ```
 kubectl exec -it $SINGLE_POD_NAME -- bash /app/migrate.sh
+kubectl exec -it $SINGLE_POD_NAME -- bash /app/collectstatic.sh
+kubectl exec -it $SINGLE_POD_NAME -- bash /app/fixtures.sh
 ```
