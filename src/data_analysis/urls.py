@@ -30,6 +30,11 @@ urlpatterns = [
     path('my_profile/', include('profiles.urls', namespace='profiles'))
 ]
 
+handler404 = 'data_analysis.views.handler404'
+handler500 = 'data_analysis.views.handler500'
+handler403 = 'data_analysis.views.handler403'
+handler400 = 'data_analysis.views.handler400'
+
 if settings.DEBUG:
     urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
