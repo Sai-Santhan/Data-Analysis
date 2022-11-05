@@ -36,7 +36,7 @@ kind: Service
 metadata:
   name: data-analysis-web-service
   annotations:
-    service.beta.kubernetes.io/do-loadbalancer-protocol: "http/2"
+    service.beta.kubernetes.io/do-loadbalancer-protocol: "http"
     service.beta.kubernetes.io/do-loadbalancer-algorithm: "round_robin"
     service.beta.kubernetes.io/do-loadbalancer-tls-ports: "443"
     service.beta.kubernetes.io/do-loadbalancer-disable-lets-encrypt-dns-records: "false"
