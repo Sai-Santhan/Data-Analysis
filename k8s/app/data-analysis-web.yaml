@@ -36,8 +36,8 @@ kind: Service
 metadata:
   name: data-analysis-web-service
   annotations:
-    service.beta.kubernetes.io/do-loadbalancer-protocol: "https"
-#    service.beta.kubernetes.io/do-loadbalancer-algorithm: "round_robin"
+    service.beta.kubernetes.io/do-loadbalancer-protocol: "http"
+    service.beta.kubernetes.io/do-loadbalancer-algorithm: "round_robin"
     service.beta.kubernetes.io/do-loadbalancer-tls-ports: "443"
     service.beta.kubernetes.io/do-loadbalancer-certificate-id: "d9876ba0-c033-43c3-8513-4ced04c16fdf"
     service.beta.kubernetes.io/do-loadbalancer-disable-lets-encrypt-dns-records: "false"
@@ -47,10 +47,10 @@ spec:
   selector:
     app: data-analysis-web-deployment
   ports:
-#    - name: http
-#      protocol: TCP
-#      port: 80
-#      targetPort: 8002
+    - name: http
+      protocol: TCP
+      port: 80
+      targetPort: 8002
     - name: https
       protocol: TCP
       port: 443
