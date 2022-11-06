@@ -26,7 +26,7 @@ SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = str(os.environ.get("DEBUG")) == "1"
 
-# Allowed_hosts
+# Allowed Hosts
 if ENV_ALLOWED_HOST := os.environ.get("ENV_ALLOWED_HOST", None):
     ALLOWED_HOSTS = [ENV_ALLOWED_HOST]
 
