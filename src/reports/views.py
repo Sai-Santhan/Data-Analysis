@@ -5,7 +5,8 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import JsonResponse, HttpResponse
 from django.shortcuts import get_object_or_404
 from django.template.loader import get_template
-from django.utils.dateparse import parse_date
+from django.utils.dateparse import parse_datetime
+from django.utils.timezone import make_aware
 from django.views.generic import ListView, DetailView, TemplateView
 from xhtml2pdf import pisa
 
@@ -52,7 +53,7 @@ def csv_upload_view(request):
                 product = row[2]
                 quantity = int(row[3])
                 customer = row[4]
-                date = parse_date(row[5])
+                date = make_aware(parse_datetime(row[5]))
 
                 try:
                     product_obj = Product.objects.get(name__iexact=product)
