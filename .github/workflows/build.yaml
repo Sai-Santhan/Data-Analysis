@@ -74,9 +74,6 @@ jobs:
       - name: Update Deployment image
         run: |
           kubectl set image deployment/data-analysis-web-deployment data-analysis-web=registry.digitalocean.com/my-do-registry/data-analysis-web:${GITHUB_SHA::7}
-      - name: Edit Deployment
-        run: |
-          kubectl edit deployment/data-analysis-web-deployment service/data-analysis-web-service
       - name: Wait for Rollout to finish
         run: |
           kubectl rollout status deployment/data-analysis-web-deployment
