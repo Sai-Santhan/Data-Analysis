@@ -24,7 +24,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = str(os.environ.get("DEBUG")) == "1"
+DEBUG = os.environ.get("DEBUG", 'False').lower() in 'true'
 
 # Allowed Hosts
 if ENV_ALLOWED_HOST := os.environ.get("ENV_ALLOWED_HOST", None):
@@ -35,20 +35,20 @@ if ENV_CSRF_TRUSTED_ORIGINS := os.environ.get("ENV_CSRF_TRUSTED_ORIGINS", None):
     CSRF_TRUSTED_ORIGINS = [ENV_CSRF_TRUSTED_ORIGINS]
 
 # CSRF
-CSRF_COOKIE_SECURE = os.environ.get("ENV_CSRF_COOKIE_SECURE", False)
-SESSION_COOKIE_SECURE = os.environ.get("ENV_SESSION_COOKIE_SECURE", False)
+CSRF_COOKIE_SECURE = os.environ.get("ENV_CSRF_COOKIE_SECURE", 'False').lower() in 'true'
+SESSION_COOKIE_SECURE = os.environ.get("ENV_SESSION_COOKIE_SECURE", 'False').lower() in 'true'
 
 # XSS
-SECURE_BROWSER_XSS_FILTER = os.environ.get("ENV_SECURE_BROWSER_XSS_FILTER", False)
-SECURE_CONTENT_TYPE_NOSNIFF = os.environ.get("ENV_SECURE_CONTENT_TYPE_NOSNIFF", False)
+SECURE_BROWSER_XSS_FILTER = os.environ.get("ENV_SECURE_BROWSER_XSS_FILTER", 'False').lower() in 'true'
+SECURE_CONTENT_TYPE_NOSNIFF = os.environ.get("ENV_SECURE_CONTENT_TYPE_NOSNIFF", 'False').lower() in 'true'
 
 # SSL Redirect
-SECURE_SSL_REDIRECT = os.environ.get("ENV_SECURE_SSL_REDIRECT", False)
+SECURE_SSL_REDIRECT = os.environ.get("ENV_SECURE_SSL_REDIRECT", 'False').lower() in 'true'
 
 # HTTP Strict Transport Security
 SECURE_HSTS_SECONDS = os.environ.get("ENV_SECURE_HSTS_SECONDS", None)
-SECURE_HSTS_INCLUDE_SUBDOMAINS = os.environ.get("ENV_SECURE_HSTS_INCLUDE_SUBDOMAINS", False)
-SECURE_HSTS_PRELOAD = os.environ.get("ENV_SECURE_HSTS_PRELOAD", False)
+SECURE_HSTS_INCLUDE_SUBDOMAINS = os.environ.get("ENV_SECURE_HSTS_INCLUDE_SUBDOMAINS", 'False').lower() in 'true'
+SECURE_HSTS_PRELOAD = os.environ.get("ENV_SECURE_HSTS_PRELOAD", 'False').lower() in 'true'
 
 # Application definition
 
@@ -114,7 +114,7 @@ DB_DATABASE = os.environ.get("POSTGRES_DB")
 DB_HOST = os.environ.get("POSTGRES_HOST")
 DB_PORT = os.environ.get("POSTGRES_PORT")
 DB_IS_AVAIL = all([DB_USERNAME, DB_PASSWORD, DB_DATABASE, DB_HOST, DB_PORT])
-DB_IGNORE_SSL = os.environ.get("DB_IGNORE_SSL") == "true"
+DB_IGNORE_SSL = os.environ.get("DB_IGNORE_SSL", 'True').lower() in 'true'
 
 if DB_IS_AVAIL:
     DATABASES = {
@@ -185,7 +185,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.0/howto/static-files/
 
-USE_SPACES = os.environ.get('USE_SPACES')
+USE_SPACES = os.environ.get('USE_SPACES', 'False').lower() in 'true'
 
 if USE_SPACES:
     # settings
@@ -218,7 +218,7 @@ STATICFILES_DIRS = [BASE_DIR / 'static',
 LOGGING_CONFIG = None
 
 # Get loglevel from env
-LOGLEVEL = os.environ.get('DJANGO_LOGLEVEL', 'info').upper()
+LOGLEVEL = os.environ.get('DJANGO_LOGLEVEL')
 
 logging.config.dictConfig({
     'version': 1,
