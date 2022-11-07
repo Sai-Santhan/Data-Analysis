@@ -23,9 +23,9 @@ spec:
                 name: data-analysis-web-prod-env
           env:
             - name: PORT
-              value: "80"
+              value: "8000"
           ports:
-            - containerPort: 80
+            - containerPort: 8000
               protocol: TCP
       imagePullSecrets:
         - name: my-do-registry
@@ -50,8 +50,8 @@ spec:
     - name: http
       protocol: TCP
       port: 80
-      targetPort: 80
+      targetPort: 8000
     - name: https
       protocol: TCP
       port: 443
-      targetPort: 80
+      targetPort: 8000
