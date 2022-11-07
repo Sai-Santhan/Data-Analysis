@@ -34,21 +34,21 @@ if ENV_ALLOWED_HOST := os.environ.get("ENV_ALLOWED_HOST", None):
 if ENV_CSRF_TRUSTED_ORIGINS := os.environ.get("ENV_CSRF_TRUSTED_ORIGINS", None):
     CSRF_TRUSTED_ORIGINS = [ENV_CSRF_TRUSTED_ORIGINS]
 
-# CSRF
-CSRF_COOKIE_SECURE = os.environ.get("ENV_CSRF_COOKIE_SECURE", 'False').lower() in 'true'
-SESSION_COOKIE_SECURE = os.environ.get("ENV_SESSION_COOKIE_SECURE", 'False').lower() in 'true'
-
-# XSS
-SECURE_BROWSER_XSS_FILTER = os.environ.get("ENV_SECURE_BROWSER_XSS_FILTER", 'False').lower() in 'true'
-SECURE_CONTENT_TYPE_NOSNIFF = os.environ.get("ENV_SECURE_CONTENT_TYPE_NOSNIFF", 'False').lower() in 'true'
-
-# SSL Redirect
-SECURE_SSL_REDIRECT = os.environ.get("ENV_SECURE_SSL_REDIRECT", 'False').lower() in 'true'
-
-# HTTP Strict Transport Security
-SECURE_HSTS_SECONDS = os.environ.get("ENV_SECURE_HSTS_SECONDS", None)
-SECURE_HSTS_INCLUDE_SUBDOMAINS = os.environ.get("ENV_SECURE_HSTS_INCLUDE_SUBDOMAINS", 'False').lower() in 'true'
-SECURE_HSTS_PRELOAD = os.environ.get("ENV_SECURE_HSTS_PRELOAD", 'False').lower() in 'true'
+# # CSRF
+# CSRF_COOKIE_SECURE = os.environ.get("ENV_CSRF_COOKIE_SECURE", 'False').lower() in 'true'
+# SESSION_COOKIE_SECURE = os.environ.get("ENV_SESSION_COOKIE_SECURE", 'False').lower() in 'true'
+#
+# # XSS
+# SECURE_BROWSER_XSS_FILTER = os.environ.get("ENV_SECURE_BROWSER_XSS_FILTER", 'False').lower() in 'true'
+# SECURE_CONTENT_TYPE_NOSNIFF = os.environ.get("ENV_SECURE_CONTENT_TYPE_NOSNIFF", 'False').lower() in 'true'
+#
+# # SSL Redirect
+# SECURE_SSL_REDIRECT = os.environ.get("ENV_SECURE_SSL_REDIRECT", 'False').lower() in 'true'
+#
+# # HTTP Strict Transport Security
+# SECURE_HSTS_SECONDS = os.environ.get("ENV_SECURE_HSTS_SECONDS", None)
+# SECURE_HSTS_INCLUDE_SUBDOMAINS = os.environ.get("ENV_SECURE_HSTS_INCLUDE_SUBDOMAINS", 'False').lower() in 'true'
+# SECURE_HSTS_PRELOAD = os.environ.get("ENV_SECURE_HSTS_PRELOAD", 'False').lower() in 'true'
 
 # Application definition
 
