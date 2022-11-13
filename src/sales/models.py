@@ -56,9 +56,14 @@ class Sale(models.Model):
         return self.positions.all()
 
 
+def user_directory_path(instance, filename):
+    # file will be uploaded to MEDIA_ROOT/csv/user_<id>/<filename>
+    return f'csv/user_{instance.id}/{filename}'
+
+
 class CSV(models.Model):
     file_name = models.CharField(max_length=120, null=True)
-    csv_file = models.FileField(upload_to="csv", null=True)
+    csv_file = models.FileField(upload_to=user_directory_path, null=True)
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
 
