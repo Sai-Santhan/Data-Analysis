@@ -3,8 +3,8 @@ const alertBox = document.getElementById("alert-box");
 const url = window.location.origin;
 
 const handleAlerts = (type, msg) => {
-  alertBox.innerHTML = `
-    <div class="alert alert-${type}" role="alert">
+    alertBox.innerHTML = `
+    <div class="alert alert-${type} text-center" role="alert">
       ${msg}
     </div>
   `;
