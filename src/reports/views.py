@@ -1,4 +1,5 @@
 import csv
+import os
 
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -8,9 +9,11 @@ from django.template.loader import get_template
 from django.utils.dateparse import parse_datetime
 from django.utils.timezone import make_aware
 from django.views.generic import ListView, DetailView, TemplateView
+from smart_open import smart_open
 from xhtml2pdf import pisa
 
 from customers.models import Customer
+from data_analysis.storages import MediaStorage
 from products.models import Product
 from profiles.models import Profile
 from reports.utils import get_report_image
@@ -38,14 +41,29 @@ def csv_upload_view(request):
     if request.method == "POST":
         csv_file_name = request.FILES.get('file').name
         csv_file = request.FILES.get('file')
-        obj, created = CSV.objects.get_or_create(file_name=csv_file_name)
 
-        if not created:
-            return JsonResponse({"ex": True})
+        # organize a path for the file in bucket
+        user_file_directory_within_media_bucket = f'csv/user_{request.user.id}'
 
-        obj.csv_file = csv_file
-        obj.save()
-        with open(obj.csv_file.path, "r") as f:
+        # synthesize a full file path; note that we included the filename
+        file_path_within_media_bucket = os.path.join(
+            user_file_directory_within_media_bucket,
+            csv_file_name
+        )
+
+        media_storage = MediaStorage()
+
+        # Avoid overwriting existing file
+        if media_storage.exists(file_path_within_media_bucket):
+            return JsonResponse({'loc': 1})
+
+        if CSV.objects.filter(file_name=csv_file_name).exists():
+            return JsonResponse({'loc': 2})
+
+        csv_instance = CSV(id=request.user.id, file_name=csv_file_name, csv_file=csv_file)
+        csv_instance.save()
+
+        with smart_open(csv_instance.csv_file.url, "r") as f:
             reader = csv.reader(f)
             next(reader)
             for row in reader:
@@ -76,7 +94,7 @@ def csv_upload_view(request):
                     )
                     sale_obj.positions.add(position_obj)
                     sale_obj.save()
-            return JsonResponse({"ex": False})
+            return JsonResponse({'loc': 3})
     return HttpResponse()
 
 
