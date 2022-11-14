@@ -213,33 +213,33 @@ STATICFILES_DIRS = [BASE_DIR / 'static',
                     BASE_DIR / 'sales' / 'static',
                     BASE_DIR / 'reports' / 'static']
 # Logging Configuration
+if not DEBUG:
+    # Disable Django's logging setup
+    LOGGING_CONFIG = None
 
-# Disable Django's logging setup
-LOGGING_CONFIG = None
+    # Get loglevel from env
+    LOGLEVEL = os.environ.get('DJANGO_LOGLEVEL')
 
-# Get loglevel from env
-LOGLEVEL = os.environ.get('DJANGO_LOGLEVEL')
-
-logging.config.dictConfig({
-    'version': 1,
-    'disable_existing_loggers': False,
-    'formatters': {
-        'console': {
-            # exact format is not important, this is the minimum information
-            'format': '%(asctime)s %(levelname)s [%(name)s:%(lineno)s] %(module)s %(process)d %(thread)d %(message)s',
+    logging.config.dictConfig({
+        'version': 1,
+        'disable_existing_loggers': False,
+        'formatters': {
+            'console': {
+                # exact format is not important, this is the minimum information
+                'format': '%(asctime)s %(levelname)s [%(name)s:%(lineno)s] %(module)s %(process)d %(thread)d %(message)s',
+            },
         },
-    },
-    'handlers': {
-        # console logs to stderr
-        'console': {
-            'class': 'logging.StreamHandler',
-            'formatter': 'console',
+        'handlers': {
+            # console logs to stderr
+            'console': {
+                'class': 'logging.StreamHandler',
+                'formatter': 'console',
+            },
         },
-    },
-    'loggers': {
-        '': {
-            'level': LOGLEVEL,
-            'handlers': ['console', ],
+        'loggers': {
+            '': {
+                'level': LOGLEVEL,
+                'handlers': ['console', ],
+            },
         },
-    },
-})
+    })
