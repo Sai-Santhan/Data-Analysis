@@ -74,3 +74,15 @@ def signup_view(request):
             "error_message": error_message
         }
         return render(request, "auth/signup.html", context)
+
+
+def about_view(request):
+    return render(request, "about.html")
+
+
+def faq_view(request):
+    return render(request, "faq.html")
+
+
+def contact_view(request):
+    return render(request, "contact.html")

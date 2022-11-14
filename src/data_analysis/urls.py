@@ -18,7 +18,7 @@ from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import path, include
 
-from .views import login_view, logout_view, signup_view
+from .views import login_view, logout_view, signup_view, about_view, faq_view, contact_view
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -27,7 +27,10 @@ urlpatterns = [
     path('login/', login_view, name='login'),
     path('logout/', logout_view, name='logout'),
     path('reports/', include('reports.urls', namespace='reports')),
-    path('my_profile/', include('profiles.urls', namespace='profiles'))
+    path('my_profile/', include('profiles.urls', namespace='profiles')),
+    path('about/', about_view, name='about'),
+    path('faq/', faq_view, name='faq'),
+    path('contact/', contact_view, name='contact')
 ]
 
 handler404 = 'data_analysis.views.handler404'
