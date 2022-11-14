@@ -4,12 +4,15 @@
 {% url 'sales:list' as path_to_sales %}
 {% url 'reports:main' as path_to_reports %}
 {% url 'profiles:my_profile' as path_to_my_profile %}
+{% url 'about' as path_to_about %}
+{% url 'faq' as path_to_faq %}
+{% url 'contact' as path_to_contact %}
 
 
-<nav class="navbar navbar-expand-sm navbar-light fixed-top mask-custom">
+<nav class="navbar navbar-expand-md navbar-light fixed-top mask-custom">
     <div class="container-fluid">
         <a class="navbar-brand" href="/"><img src="{% static 'logo.png' %}" class="logo-sm" alt="Analytics"></a>
-        <button class="navbar-toggler collapsed d-flex d-sm-none flex-column justify-content-around" type="button"
+        <button class="navbar-toggler collapsed d-flex d-md-none flex-column justify-content-around" type="button"
                 data-bs-toggle="collapse" data-bs-target="#navbarNav"
                 aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="toggler-icon top-bar"></span>
@@ -33,6 +36,18 @@
                 <li class="nav-item m-1">
                     <a class="nav-link {% if request.path == path_to_reports %}active" aria-current="page{% endif %}"
                        href="{{ path_to_reports }}">Reports</a>
+                </li>
+                <li class="nav-item m-1">
+                    <a class="nav-link {% if request.path == path_to_faq %}active" aria-current="page{% endif %}"
+                       href="{{ path_to_faq }}">FAQ</a>
+                </li>
+                <li class="nav-item m-1">
+                    <a class="nav-link {% if request.path == path_to_about %}active" aria-current="page{% endif %}"
+                       href="{{ path_to_about }}">About</a>
+                </li>
+                <li class="nav-item m-1">
+                    <a class="nav-link {% if request.path == path_to_contact %}active" aria-current="page{% endif %}"
+                       href="{{ path_to_contact }}">Contact Me</a>
                 </li>
                 {% if request.user.is_authenticated %}
                     <li class="nav-item m-1 dropdown">
