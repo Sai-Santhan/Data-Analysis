@@ -10,14 +10,16 @@
 
 <body>
 <div style="text-align: center">
-    <h1>{{ obj.name }}</h1>
+    <h5 class="text-muted">Report Name</h5>
+    <h3>{{ obj.name }}</h3>
     <hr>
-    <img src="{{ img }}" class="pdf-image light-blue glass" alt="Chart">
+    <img src="{{ obj.image.url }}" class="pdf-image light-blue glass" alt="Chart">
     <br>
-    <h1 style="text-align: center">Remarks</h1>
-    <p>{{ obj.remarks }}</p>
+    <h5 class="text-muted">Remarks</h5>
+    <h6>{{ obj.remarks }}</h6>
     <hr>
     <p>Author: <b>{{ obj.author.user.username }}</b></p>
+    <hr>
     <p>Created: <b>{{ obj.created }}</b></p>
 </div>
 </body>

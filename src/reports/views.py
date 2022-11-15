@@ -128,8 +128,7 @@ def create_report_view(request):
 def render_pdf_view(request, pk):
     template_path = "reports/pdf.html"
     obj = get_object_or_404(Report, pk=pk)
-    img = smart_open(obj.image.url)
-    context = {"obj": obj, "img": img}
+    context = {"obj": obj}
     # Create a Django response object, and specify content_type as pdf
     response = HttpResponse(content_type="application/pdf")
     # If Download
