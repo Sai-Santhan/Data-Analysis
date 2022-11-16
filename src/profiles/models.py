@@ -11,7 +11,7 @@ def user_directory_path(instance, filename):
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     bio = models.TextField(default="no bio...")
-    avatar = models.ImageField(upload_to=user_directory_path, default="no_picture.png")
+    avatar = models.ImageField(upload_to=user_directory_path, default="avatars/no_picture.png")
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
 

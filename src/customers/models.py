@@ -8,7 +8,7 @@ def user_directory_path(instance, filename):
 
 class Customer(models.Model):
     name = models.CharField(max_length=120)
-    logo = models.ImageField(upload_to=user_directory_path, default='no_picture.jpeg')
+    logo = models.ImageField(upload_to=user_directory_path, default='customers/no_picture.png')
 
     def __str__(self):
         return str(self.name)
