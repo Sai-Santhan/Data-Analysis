@@ -11,7 +11,7 @@
 
         <div style="max-width: 600px" class="container">
             {% for obj in object_list %}
-                <div class="card m-3">
+                <div class="card m-3 light-blue glass">
                     <a href="{{ obj.get_absolute_url }}" class="card-body text-center">{{ obj.transaction_id }}</a>
                 </div>
             {% endfor %}
