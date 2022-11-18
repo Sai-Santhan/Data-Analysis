@@ -1,9 +1,0 @@
-Pos,Transaction id,Product,Quantity,Customer,Date
-1,E201,TV,1,Suresh,2022-07-18
-2,E202,Smartwatch,2,Ramesh,2022-07-18
-3,E203,TV,1,Rakesh,2022-07-20
-4,E304,iphone,3,Suresh,2022-07-21
-5,E305,Laptop,2,Aditya,2022-07-23
-6,E320,iphone,1,Aditya,2022-07-23
-7,E412,Laptop,3,Suresh,2022-07-23
-8,E445,Smartwatch,3,Ramesh,2022-07-24
