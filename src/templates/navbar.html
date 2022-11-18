@@ -25,18 +25,20 @@
                     <a class="nav-link {% if request.path == path_to_home %}active" aria-current="page{% endif %}"
                        href="{{ path_to_home }}">Home</a>
                 </li>
-                <li class="nav-item m-1">
-                    <a class="nav-link {% if request.path == path_to_from_file %}active" aria-current="page{% endif %}"
-                       href="{{ path_to_from_file }}">Upload CSV</a>
-                </li>
-                <li class="nav-item m-1">
-                    <a class="nav-link {% if request.path == path_to_sales %}active" aria-current="page{% endif %}"
-                       href="{{ path_to_sales }}">Sales-List</a>
-                </li>
-                <li class="nav-item m-1">
-                    <a class="nav-link {% if request.path == path_to_reports %}active" aria-current="page{% endif %}"
-                       href="{{ path_to_reports }}">Reports</a>
-                </li>
+                {% if request.user.is_authenticated %}
+                    <li class="nav-item m-1">
+                        <a class="nav-link {% if request.path == path_to_from_file %}active" aria-current="page{% endif %}"
+                           href="{{ path_to_from_file }}">Upload CSV</a>
+                    </li>
+                    <li class="nav-item m-1">
+                        <a class="nav-link {% if request.path == path_to_sales %}active" aria-current="page{% endif %}"
+                           href="{{ path_to_sales }}">Sales-List</a>
+                    </li>
+                    <li class="nav-item m-1">
+                        <a class="nav-link {% if request.path == path_to_reports %}active" aria-current="page{% endif %}"
+                           href="{{ path_to_reports }}">Reports</a>
+                    </li>
+                {% endif %}
                 <li class="nav-item m-1">
                     <a class="nav-link {% if request.path == path_to_faq %}active" aria-current="page{% endif %}"
                        href="{{ path_to_faq }}">FAQ</a>
