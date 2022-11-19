@@ -1,0 +1,182 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}
+    FAQ
+{% endblock %}
+
+{% block content %}
+    <p class="text-center display-3 m-2">FAQ</p>
+    <div class="container" style="max-width: 700px">
+        <div class="accordion glass light-blue mt-5" id="accordionExample">
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="headingOne">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                            data-bs-target="#collapseOne"
+                            aria-expanded="true" aria-controls="collapseOne">
+                        <b>How to use this application?</b>
+                    </button>
+                </h2>
+                <div id="collapseOne" class="accordion-collapse collapse" aria-labelledby="headingOne"
+                     data-bs-parent="#accordionExample">
+                    <div class="accordion-body">
+                        <ol>
+                            <li>First SignUp/Login to the application.</li>
+                            <li>Go to 'Upload CSV' and upload well-structured CSV file. (As described in 2nd FAQ)</li>
+                            <li>View list of product sales which are extracted from CSV, by going to 'Sales-List'.</li>
+                            <li>Then go to 'Home' to Analyze the sales data by using sales dates or by transaction ID.
+                            </li>
+                            <li>The chart and the option to Add Report are displayed at the end of 'Home' page.</li>
+                            <li>Go to 'Reports' to view reports in detail or in PDF.</li>
+                            <li>The Report PDFs can be downloaded for using offline.</li>
+                        </ol>
+
+                    </div>
+                </div>
+            </div>
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="headingTwo">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                            data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                        <b>With what structure should the CSV be uploaded?</b>
+                    </button>
+                </h2>
+                <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo"
+                     data-bs-parent="#accordionExample">
+                    <div class="accordion-body">
+                        <div class="text-center bg-yellow">
+                            <h4>For Experimenting - Download <a
+                                    href="https://data-analysis-storage.sgp1.digitaloceanspaces.com/media/csv/meme.csv">CSV</a>
+                            </h4>
+                            <h5>CSV converted as table below.</h5>
+                        </div>
+                        <table class="light-blue glass dataframe table table-bordered table-hover table-sm">
+                            <thead>
+                            <tr style="text-align: left;">
+                                <th>Pos</th>
+                                <th>Transaction id</th>
+                                <th>Product</th>
+                                <th>Quantity</th>
+                                <th>Customer</th>
+                                <th>Date</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr>
+                                <td>1</td>
+                                <td>E201</td>
+                                <td>TV</td>
+                                <td>1</td>
+                                <td>Suresh</td>
+                                <td>2022-10-18</td>
+                            </tr>
+                            <tr>
+                                <td>2</td>
+                                <td>E202</td>
+                                <td>Smartwatch</td>
+                                <td>3</td>
+                                <td>Ramesh</td>
+                                <td>2022-10-18</td>
+                            </tr>
+                            <tr>
+                                <td>3</td>
+                                <td>E203</td>
+                                <td>TV</td>
+                                <td>1</td>
+                                <td>Baburao</td>
+                                <td>2022-10-20</td>
+                            </tr>
+                            <tr>
+                                <td>4</td>
+                                <td>E304</td>
+                                <td>iphone</td>
+                                <td>2</td>
+                                <td>Suresh</td>
+                                <td>2022-10-21</td>
+                            </tr>
+                            <tr>
+                                <td>5</td>
+                                <td>E305</td>
+                                <td>Laptop</td>
+                                <td>2</td>
+                                <td>Binod</td>
+                                <td>2022-10-23</td>
+                            </tr>
+                            <tr>
+                                <td>6</td>
+                                <td>E320</td>
+                                <td>iphone</td>
+                                <td>5</td>
+                                <td>Binod</td>
+                                <td>2022-10-23</td>
+                            </tr>
+                            <tr>
+                                <td>7</td>
+                                <td>E412</td>
+                                <td>Laptop</td>
+                                <td>2</td>
+                                <td>Suresh</td>
+                                <td>2022-10-23</td>
+                            </tr>
+                            <tr>
+                                <td>8</td>
+                                <td>E445</td>
+                                <td>Smartwatch</td>
+                                <td>4</td>
+                                <td>Ramesh</td>
+                                <td>2022-10-24</td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="headingThree">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                            data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                        <b>Who could benefit from using this App?</b>
+                    </button>
+                </h2>
+                <div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="headingThree"
+                     data-bs-parent="#accordionExample">
+                    <div class="accordion-body">
+                        For anyone who has a <b>catalogue of products</b> and wants to analyze the sales data.
+                    </div>
+                </div>
+            </div>
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="headingFour">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                            data-bs-target="#collapseFour" aria-expanded="false" aria-controls="collapseFour">
+                        <b>How can the reports and analysis be used?</b>
+                    </button>
+                </h2>
+                <div id="collapseFour" class="accordion-collapse collapse" aria-labelledby="headingFour"
+                     data-bs-parent="#accordionExample">
+                    <div class="accordion-body">
+                        Get insights about your product sales by generating <i>report PDFs</i> with 3 different chart
+                        choices - (<b>Bar, Line and Pie
+                        charts</b>) and 2 result choices - (<b>By Transaction and Sales Date</b>) from the sales list,
+                        which is loaded by uploading a
+                        particularly formatted CSV file(shown below).
+                    </div>
+                </div>
+            </div>
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="headingSix">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                            data-bs-target="#collapseSix" aria-expanded="false" aria-controls="collapseSix">
+                        <b>Is the data I upload safe and secure?</b>
+                    </button>
+                </h2>
+                <div id="collapseSix" class="accordion-collapse collapse" aria-labelledby="headingSix"
+                     data-bs-parent="#accordionExample">
+                    <div class="accordion-body">
+                        <strong>Yes.</strong> This app uses the latest encryption technology to keep your data safe.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
