@@ -41,7 +41,7 @@ def login_view(request):
                     if request.GET.get('next'):
                         return redirect(request.GET.get("next"))
                     else:
-                        return redirect("sales:home")
+                        return redirect("reports:from-file")
             else:
                 error_message = "Oops ... Something went Wrong!"
         context = {
@@ -66,7 +66,7 @@ def signup_view(request):
                 if request.GET.get('next'):
                     return redirect(request.GET.get("next"))
                 else:
-                    return redirect("sales:home")
+                    return redirect("reports:from-file")
             else:
                 error_message = "Oops ... Something went Wrong!"
         context = {
