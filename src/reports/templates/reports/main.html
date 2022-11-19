@@ -18,6 +18,7 @@
                     <div class="card-body">
                         <h5 class="card-title"><u>{{ obj.name }}</u></h5>
                         <p class="card-text">{{ obj.remarks|truncatewords:2 }}</p>
+                        <h6>Author: <b>{{ obj.author.user.username }}</b></h6>
                         <a href="{{ obj.get_absolute_url }}" class="btn btn-primary">Detail</a>
                         <a href="{% url 'reports:pdf' obj.pk %}" class="btn btn-danger">PDF</a>
                     </div>
