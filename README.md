@@ -3,8 +3,6 @@
 A secure, scalable, responsive, mobile-first, maintainable, reliable, cloud-first, containerized, with CI/CD automation
 implemented Data Analysis application.
 
-> ### **Launch Website: <https://www.data-analysis.live>**
-
 **Get insights about your product sales by generating report PDFs with 3 different chart choices - (Bar, Line and Pie
 charts) and 2 result choices - (By Transaction and Sales Date) from the sales list, which is loaded by uploading a
 particularly formatted CSV file(shown below).**
